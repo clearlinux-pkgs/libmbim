@@ -1,3 +1,114 @@
+commit 8f885e389c8cd50264c6a93792327565b26d2934
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sun Aug 12 14:33:56 2018 +0200
+
+    release: bump version to 1.16.2
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit e8bee79646dec7a2a9ebaccb0ef7b8e5498f9f35
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sun Aug 12 14:33:29 2018 +0200
+
+    NEWS: update for 1.16.2
+
+ NEWS | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+commit 1bc377035aee48b467788b8b08e1ae323cc1dc44
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Thu Aug 9 11:30:02 2018 +0200
+
+    mbimcli,atds: fix thresholds in LTE SNR processing
+
+    The encoded LTE SNR value is between 0 and 35, not up to 97.
+
+    (cherry picked from commit c603ab385baf5050fdbd47af9bdf9d46d407b1ab)
+
+ src/mbimcli/mbimcli-atds.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit 61b5e2a089dd87257e6b4a87018570fff48f4f2f
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Thu Aug 9 11:22:36 2018 +0200
+
+    mbimcli,atds: fix LTE SNR processing
+
+    (cherry picked from commit b1b0ff50d86e240d2c1d6aa2f19272ce000a5704)
+
+ src/mbimcli/mbimcli-atds.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 8c59d3723cb59c187c76d45831af9ee8d532389a
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sun Aug 12 14:24:12 2018 +0200
+
+    build: (late) post-release version bump to 1.16.1
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit bbea8ec1a31785e6fb9f47da644ac5aaf11214bb
+Author: Ben Chan <benchan@chromium.org>
+Date:   Wed Jun 27 14:44:31 2018 -0700
+
+    libmbim-glib: handle MBIM_SERVICE_INTEL_FIRMWARE_UPDATE in
+    mbim_cid_get_printable()
+
+    This patch adds a missing handling of
+    MBIM_SERVICE_INTEL_FIRMWARE_UPDATE
+    in mbim_cid_get_printable() for commit d2ae618d
+    ("intel-firmware-update:
+    add support for Intel Firmware Update service")
+
+    (cherry picked from commit cb54dd691967f21a6a9b1bb3e40d33e3cff35d7a)
+
+ src/libmbim-glib/mbim-cid.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit 96a0ee03d136258d80b5375a416c7511ee353363
+Author: Ben Chan <benchan@chromium.org>
+Date:   Wed Jan 31 21:56:41 2018 -0800
+
+    mbimcli: longer timeout for '--disconnect' operation
+
+    (cherry picked from commit b2af1edd5c813c8b09491cbb09f4c38f0f00ff2e)
+
+ src/mbimcli/mbimcli-basic-connect.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 87ecbf8ea8de17309c8a88bb5b831a7348c3b523
+Author: Ben Chan <benchan@chromium.org>
+Date:   Wed Jan 31 21:56:40 2018 -0800
+
+    libmbim-glib,message: handle unknown status when setting error
+
+    g_set_error_literal() requires a non-NULL 'message' argument. Passing
+    mbim_status_error_get_string() as the 'message' argument to
+    g_set_error_literal() could result in an assertion as
+    mbim_status_error_get_string() returns NULL for a status code
+    without an
+    associated MbimStatusError enum.
+
+    (cherry picked from commit 2e99e5f8a8cf2e73cea971abae35731b80249941)
+
+ src/libmbim-glib/mbim-message.c | 40
+ ++++++++++++++++++++++++----------------
+ 1 file changed, 24 insertions(+), 16 deletions(-)
+
+commit 2bf7eae99e81fae932ca672f8148dbac2eb59a5c
+Author: Dan Williams <dcbw@redhat.com>
+Date:   Mon Jan 22 13:01:02 2018 -0600
+
+    mbimcli: add "ip-type" property to --connect
+
+    (cherry picked from commit 18eb8aceede2092e4db61ef93caf94f0154c7bf7)
+
+ src/mbimcli/mbimcli-basic-connect.c | 64
+ ++++++++++++++++++++++++++++---------
+ 1 file changed, 49 insertions(+), 15 deletions(-)
+
 commit 16e15d49297f72397f6b691cf7a9ccf47bdae844
 Author: Aleksander Morgado <aleksander@aleksander.es>
 Date:   Sat Jan 20 10:26:11 2018 +0100
