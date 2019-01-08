@@ -1,22 +1,463 @@
-commit 8f885e389c8cd50264c6a93792327565b26d2934
+commit 18cd1d2b3f21ca825f4d2eb31a058b1e43860f5b
 Author: Aleksander Morgado <aleksander@aleksander.es>
-Date:   Sun Aug 12 14:33:56 2018 +0200
+Date:   Tue Jan 8 13:38:27 2019 +0100
 
-    release: bump version to 1.16.2
+    release: bump version to 1.18.0
+
+ configure.ac | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+commit 9d1e55f989408d2fe0159162affceaea7a504550
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Jan 8 13:38:00 2019 +0100
+
+    NEWS: update for 1.18.0
+
+ NEWS | 41 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
+
+commit a68d54ba609c2bd34f9a8be05a814a9414ca2bac
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Jan 8 13:51:00 2019 +0100
+
+    build: bump copyrights to 2019
+
+ docs/reference/libmbim-glib/libmbim-glib-docs.xml | 1 +
+ src/mbim-proxy/mbim-proxy.c                       | 2 +-
+ src/mbimcli/mbimcli.c                             | 2 +-
+ 3 files changed, 3 insertions(+), 2 deletions(-)
+
+commit ea42bbf13d3369664973c29f8bf07fd76bd43eef
+Author: Ben Chan <benchan@chromium.org>
+Date:   Mon Dec 10 10:56:05 2018 -0800
+
+    build: enable -Wtype-limits
+
+    -Wtype-limits helps catch unnecessary comparisons such as comparing
+    unsigned variables <= 0.
+
+    This patch essentially brings the list of compiler warnings defined in
+    m4/compiler-warnings.m4 to be on par with libqmi.
+
+ m4/compiler-warnings.m4 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit bff6abc1d7e424d7d594caba540ffe587fd0d723
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon Nov 12 15:14:53 2018 +0100
+
+    build: version bump to 1.17.5 to flag existence of new API (LTE
+    attach config)
 
  configure.ac | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-commit e8bee79646dec7a2a9ebaccb0ef7b8e5498f9f35
+commit a7b6be938af94cf2d54d4352d899831394276b6e
 Author: Aleksander Morgado <aleksander@aleksander.es>
-Date:   Sun Aug 12 14:33:29 2018 +0200
+Date:   Sun Nov 4 16:43:53 2018 +0100
 
-    NEWS: update for 1.16.2
+    ms-basic-connect-extensions: implement 'LTE attach state'
 
- NEWS | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ data/mbim-service-ms-basic-connect-extensions.json | 36 ++++++++++-
+ .../libmbim-glib/libmbim-glib-common.sections      |  5 ++
+ src/libmbim-glib/mbim-enums.h                      | 12 ++++
+ src/mbimcli/mbimcli-ms-basic-connect-extensions.c  | 71
+ +++++++++++++++++++++-
+ 4 files changed, 122 insertions(+), 2 deletions(-)
 
-commit 1bc377035aee48b467788b8b08e1ae323cc1dc44
+commit dc3c5923fa19620360b198bc1ce66fed16ec97ff
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sun Nov 4 09:17:16 2018 +0100
+
+    ms-basic-connect-extensions: implement 'LTE attach configuration'
+
+ data/mbim-service-ms-basic-connect-extensions.json | 53 +++++++++++++-
+ .../libmbim-glib/libmbim-glib-common.sections      | 15 ++++
+ src/libmbim-glib/mbim-enums.h                      | 45 ++++++++++++
+ src/mbimcli/mbimcli-ms-basic-connect-extensions.c  | 83
+ +++++++++++++++++++++-
+ 4 files changed, 192 insertions(+), 4 deletions(-)
+
+commit aa5e4ee5666c9f22b71a0bbbed7475b665eab85b
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sun Nov 4 23:04:37 2018 +0100
+
+    libmbim-glib,proxy: also track standard services
+
+    The assumption that we could totally ignore enabling/disabling
+    standard services seems to be wrong, as not all devices follow that
+    logic. Looks like some do expect the FULL list of service/cids to
+    subscribe to on every request, and we are not specifying the standard
+    services, we would totally be losing the notifications they emit.
+
+    So, track the full default list of CIDs of all standard services that
+    emit notifications, and assume that all new clients have that list
+    enabled by default. At device level we will NEVER disable the standard
+    services, but clients may do so. This means that the list of
+    service/cids that we pass down to the device must ALWAYS include all
+    cids from all standard services.
+
+    Fixes: 0073cbed59a270e1a8f18f591d31cbaf64a995ae
+
+ src/libmbim-glib/mbim-proxy-helpers.c | 130
+ +++++++++++++++++++++++++++++++++-
+ src/libmbim-glib/mbim-proxy-helpers.h |   4 ++
+ src/libmbim-glib/mbim-proxy.c         |  45 +++++-------
+ 3 files changed, 148 insertions(+), 31 deletions(-)
+
+commit 3eeaa4248b98e1c3265caa5efca0db00a00e8a56
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sun Nov 4 12:08:27 2018 +0100
+
+    ms-basic-connect-extensions: rename service
+
+    This service is not a generic service, it is defined by Microsoft, so
+    rename it to follow the same naming scheme as for other services also
+    defined by Microsoft.
+
+    We do not provide compatibility symbols, as this is a NEW service to
+    be first released in libmbim 1.18.0.
+
+    We do bump the micro versionto 1.17.4, so that applications relying
+    on the git version of libmbim can bump their minimum required version
+    accordingly.
+
+ configure.ac                                       |  2 +-
+ data/Makefile.am                                   |  4 +-
+ ... mbim-service-ms-basic-connect-extensions.json} |  4 +-
+ docs/man/Makefile.am                               |  2 +-
+ docs/reference/libmbim-glib/Makefile.am            |  4 +-
+ .../libmbim-glib/libmbim-glib-common.sections      | 12 ++---
+ docs/reference/libmbim-glib/libmbim-glib-docs.xml  | 16 +++++-
+ src/libmbim-glib/generated/Makefile.am             | 30 +++++------
+ src/libmbim-glib/libmbim-glib.h                    |  2 +-
+ src/libmbim-glib/mbim-cid.c                        | 40 +++++++-------
+ src/libmbim-glib/mbim-cid.h                        | 62
+ +++++++++++-----------
+ src/libmbim-glib/mbim-message.c                    | 20 +++----
+ src/libmbim-glib/mbim-uuid.c                       | 10 ++--
+ src/libmbim-glib/mbim-uuid.h                       | 38 ++++++-------
+ src/libmbim-glib/test/test-uuid.c                  | 26 ++++-----
+ src/mbimcli/Makefile.am                            |  4 +-
+ ...ons.c => mbimcli-ms-basic-connect-extensions.c} | 22 ++++----
+ src/mbimcli/mbimcli.c                              | 10 ++--
+ src/mbimcli/mbimcli.h                              |  6 +--
+ 19 files changed, 163 insertions(+), 151 deletions(-)
+
+commit 61b3f09e417e4f6131a763094960a7d45bb4fc56
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sun Nov 4 17:14:32 2018 +0100
+
+    mbim-codegen: don't print response contents if an error is being
+    reported
+
+        [04 nov 2018, 16:54:27] [Debug] [/dev/cdc-wdm2] Received
+        message...
+        >>>>>> RAW:
+        >>>>>>   length = 48
+        >>>>>>   data   =
+        03:00:00:80:30:00:00:00:13:00:00:00:01:00:00:00:00:00:00:00:A2:89:CC:33:BC:BB:8B:4F:B6:B0:13:3E:C2:AA:E6:DF:13:00:00:00:22:00:00:00:00:00:00:00
+
+        (mbim-proxy:14139): GLib-ERROR **: 16:54:27.373:
+        ../glib/glib/gmem.c:105: failed to allocate 33235360392 bytes
+
+ build-aux/mbim-codegen/Message.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+commit 88d2cddb9d7861e59219400a4e4ff453cdd32d20
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sun Nov 4 08:59:15 2018 +0100
+
+    basic-connect-extensions: define common struct before the message
+
+ data/mbim-service-basic-connect-extensions.json | 29
+ ++++++++++++-------------
+ 1 file changed, 14 insertions(+), 15 deletions(-)
+
+commit ce04c635358d9ac1bdbdf3bcbc70e469a9f6317f
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Oct 17 11:32:35 2018 +0200
+
+    libmbim-glib,proxy: compare MbimDevices by pointer not by path
+
+    The MbimDevice objects are stored in the proxy private info, and
+    additional references of the same objects are also referenced in each
+    client info. We can do a much quicker MbimDevice comparison just by
+    comparing pointers directly instead of paths.
+
+ src/libmbim-glib/mbim-proxy.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+commit 0073cbed59a270e1a8f18f591d31cbaf64a995ae
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Oct 10 13:20:46 2018 +0200
+
+    libmbim-glib: explicitly configure only non-standard services
+
+    The MBIM documentation states that the DEVICE_SERVICE_SUBSCRIBE_LIST
+    message may be used by clients to specify which indications it is
+    interested in receiving, and then the modem "must only indicate
+    notifications for CIDs which have been enabled via this command".
+
+    A bit later it says that "Upon OPEN_DONE completion, notifications for
+    CIDs defined in this specification are enabled (aka subscribed to) by
+    default, and vendor extension notifications are off by default."
+
+    These two previous statements seem to contradict each other, as this
+    would mean that devices emit by default indications for all standard
+    services, regardless of whether clients have subscribed to them
+    explicitly via DEVICE_SERVICE_SUBSCRIBE_LIST.
+
+    Looking at actual real devices, giving a DEVICE_SERVICE_SUBSCRIBE_LIST
+    that includes NO basic service CID enabled does NOT disable all
+    indications of the standard services, which means we have no way to
+    do so.
+
+    This commit simplifies the "merged" service subscribe list handling by
+    making the assumption that basic services are by default already
+    subscribed to and also that there is no way to un-subscribe from
+    them. We will use DEVICE_SERVICE_SUBSCRIBE_LIST only to track the
+    subscriptions to CIDs of non-standard services in the device.
+
+    If the client subscribes to standard services explicitly, the proxy
+    will ignore those and will not send those explicit subscriptions to
+    the device. In the same way, if the client un-subscribes from standard
+    services it was previously subscribed to, we will also ignore those
+    attempts. Clients should be simplified and ignore these subscriptions,
+    but meanwhile the proxy should really behave as the real device.
+
+    And while trying to behave as the real device, the indications emitted
+    for standard services should always be sent to the clients, even if
+    the clients tried to do custom management of which CIDs of the
+    standard services it's subscribed to. We shouldn't add additional
+    filtering in our end if the device isn't doing that.
+
+ src/libmbim-glib/mbim-proxy-helpers.c      |  30 +--
+ src/libmbim-glib/mbim-proxy-helpers.h      |   1 -
+ src/libmbim-glib/mbim-proxy.c              | 115 ++++++-----
+ src/libmbim-glib/test/test-proxy-helpers.c | 303
+ +++++++++--------------------
+ 4 files changed, 164 insertions(+), 285 deletions(-)
+
+commit 8f491a2d885db43c4814407bfa36f62adf4561c0
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Oct 10 01:39:28 2018 +0200
+
+    libmbim-glib,proxy: full event entry cleanup on NotOpened function
+    error
+
+    If the device suddenly reports that the MBIM session is not open,
+    e.g. after a suspend/resume cycle, we also cannot assume that the
+    client-configured lists of events are valid.
+
+    E.g. if the modem had QMI-over-MBIM indications enabled before the
+    suspend operation, once the modem is re-configured after the resume we
+    wouldn't be re-enabling these indications because we wrongly thought
+    they were already enabled.
+
+    This fixes the QMI-over-MBIM LOC support, which was broken after a
+    suspend/resume cycle.
+
+ src/libmbim-glib/mbim-proxy.c | 51
+ +++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 42 insertions(+), 9 deletions(-)
+
+commit 2bf75ebc1f82c86b324db47fe037f6bbe230e6f4
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Oct 10 01:29:24 2018 +0200
+
+    libmbim-glib,proxy: device error signal handling not per client
+
+    There is no point in having one error signal connected per client,
+    especially since the action performed is just a device forced close
+    operation. Setup just one signal connected listening to errors
+    reported by the device.
+
+ src/libmbim-glib/mbim-proxy.c | 64
+ +++++++++++++++++++++----------------------
+ 1 file changed, 31 insertions(+), 33 deletions(-)
+
+commit cbd09e3b42807182a2f5879babd8e5658d87ad31
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Oct 10 01:07:51 2018 +0200
+
+    libmbim-glib,mbim-proxy: per-device event entry merged lists
+
+    Having a global event entry merged list applicable to all devices
+    doesn't have any sense, we should have a merged list *per device*. Do
+    that by keeping the merged list in a private data associated to each
+    MbimDevice.
+
+ src/libmbim-glib/mbim-proxy.c | 174
+ +++++++++++++++++++++++++-----------------
+ 1 file changed, 106 insertions(+), 68 deletions(-)
+
+commit fbec1f4763168c75f0b221343e747545386ae9f8
+Author: Ben Chan <benchan@chromium.org>
+Date:   Tue Oct 16 16:27:42 2018 -0700
+
+    libmbim-glib,proxy: remove explicit GDestroyNotify cast on
+    g_object_unref
+
+    g_object_unref is in form of  `void (*)(gpointer)`, which matches the
+    GDestroyNotify signature. An explicit GDestroyNotify cast on
+    g_object_unref is thus not needed.
+
+ src/libmbim-glib/mbim-proxy.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit ced77fcf59ca74bd1fe8cc05dc8286a351e4e11f
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Oct 9 22:48:12 2018 +0200
+
+    libmbim-glib,device: emit signal before completing transaction task
+
+    Completion of transaction tasks is done inline, not in idle, and so a
+    lot of things may happen during the completion handler, and we may
+    even find that the input MbimMessage isn't valid any more, as the
+    message container is the input channel buffer and this buffer may be
+    closed and recreated during the function error handling...
+
+        [09 oct 2018, 22:34:59] [Debug] [/dev/cdc-wdm2] Received message
+        (translated)...
+        >>>>>> Header:
+        >>>>>>   length      = 16
+        >>>>>>   type        = function-error (0x80000004)
+        >>>>>>   transaction = 46
+        >>>>>> Contents:
+        >>>>>>   error = 'NotOpened' (0x00000005)
+
+        [09 oct 2018, 22:34:59] [Debug] device not-opened error reported,
+        reopening
+        [09 oct 2018, 22:34:59] [Debug] [/dev/cdc-wdm2] channel destroyed
+        [09 oct 2018, 22:34:59] [Debug] opening device...
+        [09 oct 2018, 22:34:59] [Debug] [/dev/cdc-wdm2] Queried max
+        control message size: 4096
+        Segmentation fault
+
+    Avoid this, just by emitting the error signal before the task
+    completion.
+
+ src/libmbim-glib/mbim-device.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+commit 89c29c18c95f7f02481a4c620039c4c90d6c1889
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sun Oct 7 21:27:13 2018 +0200
+
+    mbim-codegen: implement support for printing message fields in traces
+
+ build-aux/mbim-codegen/Message.py    | 343
+ ++++++++++++++++++++++++++++++++++-
+ build-aux/mbim-codegen/ObjectList.py | 128 ++++++++++++-
+ build-aux/mbim-codegen/Struct.py     | 132 +++++++++++++-
+ build-aux/mbim-codegen/mbim-codegen  |   5 +-
+ build-aux/mbim-codegen/utils.py      |   4 +-
+ src/libmbim-glib/mbim-message.c      |  92 +++++++++-
+ 6 files changed, 696 insertions(+), 8 deletions(-)
+
+commit 603e24febf12e09ed0ef5c6ceaf813c99650c5a3
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Oct 9 10:09:54 2018 +0200
+
+    mbim-codegen: remove broken support for guint32-array types out
+    of struct
+
+    The only 2 fields flagged with 'guint32-array' type are given inside
+    structs, and this lead to having a buggy implementation of the type
+    when out of structs. E.g. we were assuming we could use '${public}' to
+    refer to the enum/flag type associated to the guint32 when in an
+    array, but that logic was totally broken as the public variable would
+    be equal to 'guint32-array' if no enum/flag type given. Just remove
+    that, and leave only the in-struct support.
+
+ build-aux/mbim-codegen/Message.py | 22 +---------------------
+ 1 file changed, 1 insertion(+), 21 deletions(-)
+
+commit 9ba08cc9951d41afa3195010fac1cbffa2a826b9
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Oct 9 09:53:50 2018 +0200
+
+    mbim-codegen: remove broken support for unused guint64-array types
+
+    The code generator was ready to support these fields completely, but
+    the library helper methods for reading these fields didn't even exist.
+
+    Just remove the support from the code generator all together, whenever
+    such a field is supported in any MBIM message, we'll add a proper
+    implementation.
+
+ build-aux/mbim-codegen/Message.py       | 14 --------------
+ build-aux/mbim-codegen/Struct.py        |  2 --
+ src/libmbim-glib/mbim-message-private.h |  6 ------
+ src/libmbim-glib/mbim-message.c         | 20 --------------------
+ 4 files changed, 42 deletions(-)
+
+commit 8d748c69e4ea622a126477df900c6b44efabd4ec
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sun Oct 7 22:29:17 2018 +0200
+
+    libmbim-glib,docs: add missing MbimPcoType references
+
+ docs/reference/libmbim-glib/libmbim-glib-common.sections | 3 +++
+ 1 file changed, 3 insertions(+)
+
+commit 670641b4f2aee333cd809e1c06a380eeb7144a2a
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sun Oct 7 22:26:55 2018 +0200
+
+    mbim-codegen: remove support for ipv4-array and ipv6-array inside
+    structs
+
+    It was never used and the implementation was actually buggy. Not worth
+    maintaining this.
+
+ build-aux/mbim-codegen/Struct.py | 32 --------------------------------
+ 1 file changed, 32 deletions(-)
+
+commit 6ac1b7f994d8e07b7c27caed47f97f927505a488
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sun Oct 7 21:25:59 2018 +0200
+
+    mbim-codegen: advance offset 16 bytes when reading a guint64 field
+
+    https://gitlab.freedesktop.org/mobile-broadband/libmbim/issues/4
+
+ build-aux/mbim-codegen/Message.py | 2 +-
+ build-aux/mbim-codegen/Struct.py  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+commit 124c01fc75c96328284c9b8721a9773d4cf7b632
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sun Oct 7 21:25:15 2018 +0200
+
+    atds: fix service name
+
+    Should be the same as the 'service' fields in each message.
+
+ data/mbim-service-atds.json                       | 4 ++--
+ docs/reference/libmbim-glib/libmbim-glib-docs.xml | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+commit 531ee220339b285078a91b73cb1857881d6aa506
+Author: Ben Chan <benchan@chromium.org>
+Date:   Sun Sep 16 11:52:39 2018 -0700
+
+    libmbim-glib: fix UUID for 'Basic Connectivity Extensions' service
+
+    The 'Basic Connectivity Extensions' service UUID was inconsistently
+    stated in some Microsoft documentations, which has been fixed in [1].
+    This patch updates libmbim to use the correct UUID for the 'Basic
+    Connectivity Extensions' service UUID, which is
+    3d01dcc5-fef5-4d05-0d3a-bef7058e9aaf.
+
+    [1] https://github.com/MicrosoftDocs/windows-driver-docs/issues/831
+
+ src/libmbim-glib/mbim-uuid.c      | 2 +-
+ src/libmbim-glib/test/test-uuid.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+commit c603ab385baf5050fdbd47af9bdf9d46d407b1ab
 Author: Aleksander Morgado <aleksander@aleksander.es>
 Date:   Thu Aug 9 11:30:02 2018 +0200
 
@@ -24,32 +465,82 @@ Date:   Thu Aug 9 11:30:02 2018 +0200
 
     The encoded LTE SNR value is between 0 and 35, not up to 97.
 
-    (cherry picked from commit c603ab385baf5050fdbd47af9bdf9d46d407b1ab)
-
  src/mbimcli/mbimcli-atds.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-commit 61b5e2a089dd87257e6b4a87018570fff48f4f2f
+commit b1b0ff50d86e240d2c1d6aa2f19272ce000a5704
 Author: Aleksander Morgado <aleksander@aleksander.es>
 Date:   Thu Aug 9 11:22:36 2018 +0200
 
     mbimcli,atds: fix LTE SNR processing
 
-    (cherry picked from commit b1b0ff50d86e240d2c1d6aa2f19272ce000a5704)
-
  src/mbimcli/mbimcli-atds.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-commit 8c59d3723cb59c187c76d45831af9ee8d532389a
-Author: Aleksander Morgado <aleksander@aleksander.es>
-Date:   Sun Aug 12 14:24:12 2018 +0200
+commit 652188fe3e5f015b637b19c68869a54b56b18620
+Author: Ben Chan <benchan@chromium.org>
+Date:   Mon Jul 30 13:42:11 2018 -0700
 
-    build: (late) post-release version bump to 1.16.1
+    build: version bump to 1.17.3 for newly added MBIM_CID_PCO support
 
  configure.ac | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-commit bbea8ec1a31785e6fb9f47da644ac5aaf11214bb
+commit 1475ed59d265e6c25cfa048aba4a378940da697d
+Author: Ben Chan <benchan@chromium.org>
+Date:   Thu Jul 26 23:38:07 2018 -0700
+
+    mbimcli: new '--query-pco' action
+
+    Change-Id: I7f24d481cb92b2e817eba487d38739b8fed58b28
+
+ docs/man/Makefile.am                           |   1 +
+ src/mbimcli/Makefile.am                        |   1 +
+ src/mbimcli/mbimcli-basic-connect-extensions.c | 246
+ +++++++++++++++++++++++++
+ src/mbimcli/mbimcli.c                          |   8 +
+ src/mbimcli/mbimcli.h                          |   4 +
+ 5 files changed, 260 insertions(+)
+
+commit dbe70fee692974a92ce102642049b072bb17c9bd
+Author: Ben Chan <benchan@chromium.org>
+Date:   Thu Jul 26 23:38:06 2018 -0700
+
+    libmbim-glib: add partial support for Basic IP Connectivity Extensions
+    service
+
+    This patch adds partial support for the Basic IP Connectivity
+    Extensions
+    service defined in Microsoft Mobile Broadband Design Guide. Only the
+    Protocol Configuration Operations (PCO) command is defined.
+
+ data/Makefile.am                                   |  1 +
+ data/mbim-service-basic-connect-extensions.json    | 34
+ ++++++++++++++++++++++
+ docs/reference/libmbim-glib/Makefile.am            |  1 +
+ .../libmbim-glib/libmbim-glib-common.sections      |  8 +++++
+ docs/reference/libmbim-glib/libmbim-glib-docs.xml  |  1 +
+ src/libmbim-glib/generated/Makefile.am             | 12 ++++++++
+ src/libmbim-glib/libmbim-glib.h                    |  1 +
+ src/libmbim-glib/mbim-cid.c                        | 23 +++++++++++++++
+ src/libmbim-glib/mbim-cid.h                        | 30
+ +++++++++++++++++++
+ src/libmbim-glib/mbim-enums.h                      | 15 ++++++++++
+ src/libmbim-glib/mbim-uuid.c                       | 13 +++++++++
+ src/libmbim-glib/mbim-uuid.h                       | 11 +++++++
+ src/libmbim-glib/test/test-uuid.c                  |  8 +++++
+ 13 files changed, 158 insertions(+)
+
+commit b7f244c7206142fd869e2b865ae7f29e677036e1
+Author: Ben Chan <benchan@chromium.org>
+Date:   Fri Jul 27 15:14:38 2018 -0700
+
+    mbim-codegen: handle 'ref-byte-array-no-offset' fields in Structs
+
+ build-aux/mbim-codegen/Struct.py | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
+
+commit cb54dd691967f21a6a9b1bb3e40d33e3cff35d7a
 Author: Ben Chan <benchan@chromium.org>
 Date:   Wed Jun 27 14:44:31 2018 -0700
 
@@ -62,23 +553,104 @@ Date:   Wed Jun 27 14:44:31 2018 -0700
     ("intel-firmware-update:
     add support for Intel Firmware Update service")
 
-    (cherry picked from commit cb54dd691967f21a6a9b1bb3e40d33e3cff35d7a)
-
  src/libmbim-glib/mbim-cid.c | 2 ++
  1 file changed, 2 insertions(+)
 
-commit 96a0ee03d136258d80b5375a416c7511ee353363
+commit 12f1a4f623d915957bb8b9b1b9a5e6c19b708e8c
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sun Jun 24 18:44:11 2018 +0200
+
+    build: version bump to 1.17.2 to flag existence of new API (QMI
+    indications)
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 4a853eb22b564bbaf0b591042abe75da8c3bd408
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sun Jun 24 18:37:59 2018 +0200
+
+    libmbim-glib,qmi: enable notifications in the QMI_MSG CID
+
+    The QMI service allows QMI indications to be reported via MBIM
+    notifications, once they're enabled with 'Basic Connect Device Service
+    Subscribe List'.
+
+ data/mbim-service-qmi.json  | 21 ++++++++++++---------
+ src/libmbim-glib/mbim-cid.c |  2 +-
+ 2 files changed, 13 insertions(+), 10 deletions(-)
+
+commit f967d117ce1a44cfe8121b5b09a5bb5d7838531e
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sun Jun 24 09:44:40 2018 +0200
+
+    libmbim-glib,cid: fix QMI_MSG documentation
+
+ src/libmbim-glib/mbim-cid.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit baa8dbc42c824a6d7e5a60cd096d8eb2c6f20f4e
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sat Jun 2 18:23:00 2018 +0200
+
+    build: version bump to 1.17.1 to flag existence of new API
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 2a97e39cdda125dd1b28ad7eef0f45f3646fc65e
+Author: Ben Chan <benchan@chromium.org>
+Date:   Fri Jun 1 19:44:14 2018 -0700
+
+    libmbim-glib: add additional cause codes to MbimNwError
+
+    This patch updates MbimNwError to include additional cause codes,
+    which
+    are related to PDP context activation, defined in the 3GPP TS 24.008
+    specification section 6.1.3.1.3.1.
+
+ src/libmbim-glib/mbim-enums.h | 92
+ +++++++++++++++++++++++++++----------------
+ 1 file changed, 57 insertions(+), 35 deletions(-)
+
+commit 2726ecd6c810fe9ccf030953893af9e90ec20073
+Author: Lubomir Rintel <lkundrak@v3.sk>
+Date:   Tue Apr 24 08:10:32 2018 +0200
+
+    build: figure out the right Python provider for the build
+
+    Python can be called python3, python2 or merely python, but we're
+    fine with
+    either.
+
+ configure.ac                           |  2 ++
+ src/libmbim-glib/generated/Makefile.am | 26 +++++++++++++-------------
+ 2 files changed, 15 insertions(+), 13 deletions(-)
+
+commit 86e8e8cdd65a8a7b5bb40b04068358dc8ee5473f
+Author: Lubomir Rintel <lkundrak@v3.sk>
+Date:   Tue Apr 24 08:08:46 2018 +0200
+
+    all: drop exec bit and shebang from Python modules
+
+    Only the executables are supposed to possess those.
+
+ build-aux/mbim-codegen/Message.py    | 1 -
+ build-aux/mbim-codegen/ObjectList.py | 1 -
+ build-aux/mbim-codegen/Struct.py     | 1 -
+ build-aux/mbim-codegen/utils.py      | 1 -
+ 4 files changed, 4 deletions(-)
+
+commit b2af1edd5c813c8b09491cbb09f4c38f0f00ff2e
 Author: Ben Chan <benchan@chromium.org>
 Date:   Wed Jan 31 21:56:41 2018 -0800
 
     mbimcli: longer timeout for '--disconnect' operation
 
-    (cherry picked from commit b2af1edd5c813c8b09491cbb09f4c38f0f00ff2e)
-
  src/mbimcli/mbimcli-basic-connect.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-commit 87ecbf8ea8de17309c8a88bb5b831a7348c3b523
+commit 2e99e5f8a8cf2e73cea971abae35731b80249941
 Author: Ben Chan <benchan@chromium.org>
 Date:   Wed Jan 31 21:56:40 2018 -0800
 
@@ -91,23 +663,28 @@ Date:   Wed Jan 31 21:56:40 2018 -0800
     without an
     associated MbimStatusError enum.
 
-    (cherry picked from commit 2e99e5f8a8cf2e73cea971abae35731b80249941)
-
  src/libmbim-glib/mbim-message.c | 40
  ++++++++++++++++++++++++----------------
  1 file changed, 24 insertions(+), 16 deletions(-)
 
-commit 2bf7eae99e81fae932ca672f8148dbac2eb59a5c
+commit 18eb8aceede2092e4db61ef93caf94f0154c7bf7
 Author: Dan Williams <dcbw@redhat.com>
 Date:   Mon Jan 22 13:01:02 2018 -0600
 
     mbimcli: add "ip-type" property to --connect
 
-    (cherry picked from commit 18eb8aceede2092e4db61ef93caf94f0154c7bf7)
-
  src/mbimcli/mbimcli-basic-connect.c | 64
  ++++++++++++++++++++++++++++---------
  1 file changed, 49 insertions(+), 15 deletions(-)
+
+commit 156859daee873d7415c18620e0b5601d607c2f30
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sat Jan 20 10:29:43 2018 +0100
+
+    build: post release version bump to 1.17.0
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 commit 16e15d49297f72397f6b691cf7a9ccf47bdae844
 Author: Aleksander Morgado <aleksander@aleksander.es>
