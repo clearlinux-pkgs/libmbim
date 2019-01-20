@@ -4,7 +4,7 @@
 #
 Name     : libmbim
 Version  : 1.18.0
-Release  : 4
+Release  : 5
 URL      : https://www.freedesktop.org/software/libmbim/libmbim-1.18.0.tar.xz
 Source0  : https://www.freedesktop.org/software/libmbim/libmbim-1.18.0.tar.xz
 Summary  : MBIM modem protocol helper library
@@ -115,7 +115,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1546979514
+export SOURCE_DATE_EPOCH=1548003828
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -Os -fdata-sections -ffat-lto-objects -ffunction-sections -flto=4 -fno-semantic-interposition "
+export FCFLAGS="$CFLAGS -O3 -Os -fdata-sections -ffat-lto-objects -ffunction-sections -flto=4 -fno-semantic-interposition "
+export FFLAGS="$CFLAGS -O3 -Os -fdata-sections -ffat-lto-objects -ffunction-sections -flto=4 -fno-semantic-interposition "
+export CXXFLAGS="$CXXFLAGS -O3 -Os -fdata-sections -ffat-lto-objects -ffunction-sections -flto=4 -fno-semantic-interposition "
 %configure --disable-static
 make  %{?_smp_mflags}
 
@@ -127,7 +134,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1546979514
+export SOURCE_DATE_EPOCH=1548003828
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libmbim
 cp COPYING %{buildroot}/usr/share/package-licenses/libmbim/COPYING
