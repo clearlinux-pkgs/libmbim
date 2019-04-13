@@ -1,3 +1,63 @@
+commit 3c5431e2efa900b6b174151824ac4b6d0d93aabc
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Oct 10 16:08:33 2018 +0200
+
+    build: bump revision for next branch build
+
+ configure.ac | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit cdf25b2853257d986e4a3c00993182d39649395f
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Thu Mar 7 15:11:57 2019 +0100
+
+    mbim-proxy: new '--empty-timeout=[SECS}' option
+
+    We allow specifying how long the proxy should be kept running after
+    the last client/device has exited.
+
+ src/mbim-proxy/mbim-proxy.c | 23 ++++++++++++++++++-----
+ 1 file changed, 18 insertions(+), 5 deletions(-)
+
+commit 27257959196e34d8312f3fd481ab94199e779026
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Thu Mar 7 15:08:05 2019 +0100
+
+    mbim-proxy: new --no-exit option to avoid the proxy from exiting
+
+ src/mbim-proxy/mbim-proxy.c | 26 +++++++++++++++++---------
+ 1 file changed, 17 insertions(+), 9 deletions(-)
+
+commit 8a3c88eaa76e606b113000889bfa0f8d9901eb99
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Thu Mar 7 15:04:04 2019 +0100
+
+    mbim-proxy: update default empty lifetime timeout to 300s
+
+ src/mbim-proxy/mbim-proxy.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 92501dffafee34ac8ba358cc27c5bb89cd8a2625
+Author: Eric Caruso <ejcaruso@chromium.org>
+Date:   Mon Feb 11 15:46:12 2019 -0800
+
+    Add .gitlab-ci.yml
+
+    This allows us to run unit tests on every commit to the gitlab
+    instance.
+
+ .gitlab-ci.yml | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+commit 29b09c4d146c8d0a0cc12417ecdc3356fa5559da
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Jan 8 14:01:58 2019 +0100
+
+    build: post-release version bump to 1.19.0
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 commit 18cd1d2b3f21ca825f4d2eb31a058b1e43860f5b
 Author: Aleksander Morgado <aleksander@aleksander.es>
 Date:   Tue Jan 8 13:38:27 2019 +0100
