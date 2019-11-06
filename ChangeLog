@@ -1,3 +1,101 @@
+commit 824812a906940884a0fab909d86734a65173f46c
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Nov 6 12:10:35 2019 +0100
+
+    release: bump version to 1.20.2
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit ce41a4f3cbe7095a1ae366970d4cd9a21f4d1e20
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Nov 6 12:10:25 2019 +0100
+
+    NEWS: update for 1.20.2
+
+ NEWS | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+commit 927beffed739af071ab68e4e91a191dde2ed51be
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon Nov 4 10:36:09 2019 +0100
+
+    libmbim-glib,device: fix handling of fragmented indication messages
+
+    The transactions for the fragmented indication messages were being
+    stored in the "host" type transaction hashtable, instead of in the
+    "modem" type transaction hashtable.
+
+    Fixes https://gitlab.freedesktop.org/mobile-broadband/libmbim/issues/8
+
+    (cherry picked from commit eceb6b70ad74dc5c346561c382cb02795b4870f6)
+
+ src/libmbim-glib/mbim-device.c | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
+
+commit 3f0139cf945f78d88b3147835e366078dd7d8434
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sat Sep 21 14:38:28 2019 +0200
+
+    libmbim-glib,proxy: plug memleak
+
+    (cherry picked from commit 0bbe65cc3b4bd1321dc6e14dfe74b963ef8ba257)
+
+ src/libmbim-glib/mbim-proxy.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit 1b24dd3dda3409ec4b186398316e9a4f47f78330
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sat Sep 21 14:01:30 2019 +0200
+
+    libmbim-glib,proxy: always use realpath in the MbimDevice
+
+    We don't want to create different MbimDevices for the same cdc-wdm
+    port when it's accessed through different symlinks.
+
+    Fixes https://gitlab.freedesktop.org/mobile-broadband/libmbim/issues/6
+
+    (cherry picked from commit 40640217fb40921c787cf309d6b988f04f1af84c)
+
+ src/libmbim-glib/mbim-proxy.c | 22 ++++++++++++++++++----
+ 1 file changed, 18 insertions(+), 4 deletions(-)
+
+commit 54903a86e84df3b9f3d0bec2d3e95d3ef380cb5e
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sat Sep 21 14:00:15 2019 +0200
+
+    libmbim-glib,device: use realpath basename to look for descriptors
+    file
+
+    Fixes https://gitlab.freedesktop.org/mobile-broadband/libmbim/issues/6
+
+    (cherry picked from commit b0ede0ce4626353e89387f8bb3ab05b608f2e38d)
+
+ src/libmbim-glib/mbim-device.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
+
+commit 2aabb1f1831ae9aa9f3fe1325113f2ea420c5708
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sat Sep 21 13:59:51 2019 +0200
+
+    libmbim-glib,utils: new helpers to work with symlinks
+
+    (cherry picked from commit 4932766d8cc77430283f708385eab45cc13bbc6a)
+
+ src/libmbim-glib/mbim-utils.c | 44
+ ++++++++++++++++++++++++++++++++++++++++++-
+ src/libmbim-glib/mbim-utils.h |  8 ++++++--
+ 2 files changed, 49 insertions(+), 3 deletions(-)
+
+commit e0103fb8856e8657a9ea2635b5828863a851e7b3
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Fri Sep 6 14:27:23 2019 +0200
+
+    build: post-release version bump to 1.20.1
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 commit 376824c586fbf72ea0aeda3c8fb0df38c213a99e
 Author: Aleksander Morgado <aleksander@aleksander.es>
 Date:   Fri Sep 6 14:03:13 2019 +0200
