@@ -1,3 +1,107 @@
+commit efa0874bd17fb4808911453a0b36843fd47d5744
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sat Dec 21 16:57:23 2019 +0100
+
+    release: bump version to 1.20.4
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 23b930c7ee0c19472db4732632eaf0413da9062d
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sat Dec 21 16:57:08 2019 +0100
+
+    NEWS: update for 1.20.4
+
+ NEWS | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+commit 97ae926f7ab51e39d73314fc65ec723f561f9588
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sat Dec 21 16:48:45 2019 +0100
+
+    libmbim-glib,device: plug memleak when processing Open errors
+
+       ==8725== 40 (16 direct, 24 indirect) bytes in 1 blocks are
+       definitely lost in loss record 825 of 1,273
+       ==8725==    at 0x483877F: malloc (vg_replace_malloc.c:309)
+       ==8725==    by 0x4B7C8D9: g_malloc (in
+       /usr/lib/libglib-2.0.so.0.6200.3)
+       ==8725==    by 0x4B5D893: g_slice_alloc (in
+       /usr/lib/libglib-2.0.so.0.6200.3)
+       ==8725==    by 0x4B979DA: g_error_copy (in
+       /usr/lib/libglib-2.0.so.0.6200.3)
+       ==8725==    by 0x48AA3BC: transaction_task_complete_and_free
+       (mbim-device.c:243)
+       ==8725==    by 0x48AAE00: finalize_pending_open_request
+       (mbim-device.c:541)
+       ==8725==    by 0x48AB12B: process_message (mbim-device.c:632)
+       ==8725==    by 0x48AB530: parse_response (mbim-device.c:762)
+       ==8725==    by 0x48AB844: data_available (mbim-device.c:842)
+       ==8725==    by 0x4B8226E: g_main_context_dispatch (in
+       /usr/lib/libglib-2.0.so.0.6200.3)
+       ==8725==    by 0x4B841B0: ??? (in /usr/lib/libglib-2.0.so.0.6200.3)
+       ==8725==    by 0x4B850C2: g_main_loop_run (in
+       /usr/lib/libglib-2.0.so.0.6200.3)
+
+    (cherry picked from commit 2ed61627f885de72a20850b02f262a7e851240c3)
+
+ src/libmbim-glib/mbim-device.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit 943e41d1d485a097331a6ac711b6350a01e4e2b6
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sat Dec 21 16:38:40 2019 +0100
+
+    libmbim,device: plug memleak when processing responses with multiple
+    fragments
+
+       ==8725== 48 bytes in 3 blocks are definitely lost in loss record
+       840 of 1,273
+       ==8725==    at 0x483877F: malloc (vg_replace_malloc.c:309)
+       ==8725==    by 0x4B7C8D9: g_malloc (in
+       /usr/lib/libglib-2.0.so.0.6200.3)
+       ==8725==    by 0x4B5D893: g_slice_alloc (in
+       /usr/lib/libglib-2.0.so.0.6200.3)
+       ==8725==    by 0x48AA78D: device_store_transaction
+       (mbim-device.c:371)
+       ==8725==    by 0x48AE34C: mbim_device_command (mbim-device.c:2218)
+       ==8725==    by 0x48B0E83: process_command (mbim-proxy.c:1020)
+       ==8725==    by 0x48B0F8C: process_message (mbim-proxy.c:1052)
+       ==8725==    by 0x48B1052: parse_request (mbim-proxy.c:1091)
+       ==8725==    by 0x48B1279: connection_readable_cb
+       (mbim-proxy.c:1140)
+       ==8725==    by 0x49D32E9: ??? (in /usr/lib/libgio-2.0.so.0.6200.3)
+       ==8725==    by 0x4B8226E: g_main_context_dispatch (in
+       /usr/lib/libglib-2.0.so.0.6200.3)
+       ==8725==    by 0x4B841B0: ??? (in /usr/lib/libglib-2.0.so.0.6200.3)
+       ==8725==
+
+    (cherry picked from commit 4d5a77fe68feeef3c0aed27c865ac7645760789b)
+
+ src/libmbim-glib/mbim-device.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
+
+commit c2345daa94927d3c4d0cdf67355b650670cc5484
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 19 11:44:23 2019 +0100
+
+    libmbim-glib,uuid: remove redundant declaration
+
+    (cherry picked from commit 60f686ba451b1b64da828503da06c2c00cabe138)
+
+ src/libmbim-glib/mbim-uuid.h | 2 --
+ 1 file changed, 2 deletions(-)
+
+commit 1d26e0be933ca48e2570456cacc13433fb3a58e4
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Nov 6 12:16:13 2019 +0100
+
+    build: post-release version bump to 1.20.3
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 commit 824812a906940884a0fab909d86734a65173f46c
 Author: Aleksander Morgado <aleksander@aleksander.es>
 Date:   Wed Nov 6 12:10:35 2019 +0100
