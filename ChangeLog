@@ -1,22 +1,72 @@
-commit efa0874bd17fb4808911453a0b36843fd47d5744
+commit 697465da7e976d15b13061368d37f76d8e0c33c4
 Author: Aleksander Morgado <aleksander@aleksander.es>
-Date:   Sat Dec 21 16:57:23 2019 +0100
+Date:   Wed Jan 15 16:09:39 2020 +0100
 
-    release: bump version to 1.20.4
+    release: bump version to 1.22.0
 
- configure.ac | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ configure.ac | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-commit 23b930c7ee0c19472db4732632eaf0413da9062d
+commit dfffc52415ef1504cd0c088b4cc7dbe5d54211f0
 Author: Aleksander Morgado <aleksander@aleksander.es>
-Date:   Sat Dec 21 16:57:08 2019 +0100
+Date:   Wed Jan 15 16:07:54 2020 +0100
 
-    NEWS: update for 1.20.4
+    NEWS: update for 1.22
 
- NEWS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ NEWS | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-commit 97ae926f7ab51e39d73314fc65ec723f561f9588
+commit 2374eeabf2f163fba3f9680a3e95ddeef8bb8a2e
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Thu Jan 9 11:36:51 2020 +0100
+
+    libmbim-glib,message: fix build with -Wcast-align in ARM
+
+      mbim-message.c: In function '_mbim_struct_builder_complete':
+      mbim-message.c:534:24: error: cast increases required alignment
+      of target type [-Werror=cast-align]
+               offset_value = (guint32 *)
+               &(builder->fixed_buffer->data[offset_offset]);
+                            ^
+
+ src/libmbim-glib/mbim-message.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+commit 1c58bd3c10eca49eaf83afd667aa8e5b079bc8ad
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Fri Jan 3 20:38:31 2020 +0100
+
+    build: bump copyright years to 2020
+
+ docs/reference/libmbim-glib/libmbim-glib-docs.xml | 1 +
+ src/mbim-proxy/mbim-proxy.c                       | 2 +-
+ src/mbimcli/mbimcli.c                             | 2 +-
+ 3 files changed, 3 insertions(+), 2 deletions(-)
+
+commit 9c82fe382b49808131a087e69de709ba988f0e47
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Fri Jan 3 20:35:16 2020 +0100
+
+    mbimcli: flag print_version_and_exit() as noreturn
+
+    Same thing as done in libqmi, see
+    https://gitlab.freedesktop.org/mobile-broadband/libqmi/merge_requests/82
+
+ src/mbimcli/mbimcli.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 78541004048aa15880ca99b5e06b9d7529742c77
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon Dec 23 08:24:02 2019 +0100
+
+    test,basic-connect: fail provisioned contexts response without
+    information buffer
+
+ src/libmbim-glib/test/test-message-parser.c | 37
+ +++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
+
+commit 2ed61627f885de72a20850b02f262a7e851240c3
 Author: Aleksander Morgado <aleksander@aleksander.es>
 Date:   Sat Dec 21 16:48:45 2019 +0100
 
@@ -44,12 +94,10 @@ Date:   Sat Dec 21 16:48:45 2019 +0100
        ==8725==    by 0x4B850C2: g_main_loop_run (in
        /usr/lib/libglib-2.0.so.0.6200.3)
 
-    (cherry picked from commit 2ed61627f885de72a20850b02f262a7e851240c3)
-
  src/libmbim-glib/mbim-device.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-commit 943e41d1d485a097331a6ac711b6350a01e4e2b6
+commit 4d5a77fe68feeef3c0aed27c865ac7645760789b
 Author: Aleksander Morgado <aleksander@aleksander.es>
 Date:   Sat Dec 21 16:38:40 2019 +0100
 
@@ -77,50 +125,894 @@ Date:   Sat Dec 21 16:38:40 2019 +0100
        ==8725==    by 0x4B841B0: ??? (in /usr/lib/libglib-2.0.so.0.6200.3)
        ==8725==
 
-    (cherry picked from commit 4d5a77fe68feeef3c0aed27c865ac7645760789b)
-
  src/libmbim-glib/mbim-device.c | 16 ++++++++++------
  1 file changed, 10 insertions(+), 6 deletions(-)
 
-commit c2345daa94927d3c4d0cdf67355b650670cc5484
+commit 0d3017abc39d14d4c8356f54af81aa4dbb0f4e79
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sat Dec 21 15:57:00 2019 +0100
+
+    libmbim-glib,proxy: validate service subscribe request before parsing
+
+ src/libmbim-glib/mbim-proxy-helpers.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+commit a5089b41e442bbd9fedcb51e976b3cbdab360f32
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sat Dec 21 15:30:19 2019 +0100
+
+    mbim-codegen,message: information buffer only required if fields
+    expected
+
+    If a MBIM response/indication message does not expect any field in
+    payload, don't even validate the existence of the information buffer.
+
+    E.g. the SMS delete response doesn't have any field, so we shouldn't
+    fail when we detect that:
+
+        ModemManager[6065]: [/dev/cdc-wdm0] Received message
+        (translated)...
+        >>>>>> Header:
+        >>>>>>   length      = 48
+        >>>>>>   type        = command-done (0x80000003)
+        >>>>>>   transaction = 36
+        >>>>>> Fragment header:
+        >>>>>>   total   = 1
+        >>>>>>   current = 0
+        >>>>>> Contents:
+        >>>>>>   status error = 'None' (0x00000000)
+        >>>>>>   service      = 'sms'
+        (533fbeeb-14fe-4467-9f90-33a223e56c3f)
+        >>>>>>   cid          = 'delete' (0x00000004)
+        ModemManager[6065]: <debug> [1576938340.872769] Couldn't delete
+        SMS part with index 3: 'Message does not have information buffer'
+
+ build-aux/mbim-codegen/Message.py | 38
+ ++++++++++++++++++++++----------------
+ 1 file changed, 22 insertions(+), 16 deletions(-)
+
+commit a850e71dadc4a109b81d580b6c2d7be1132b1f32
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 26 22:14:01 2019 +0100
+
+    libmbim-glib,test: add test for failed message parsing
+
+ src/libmbim-glib/test/test-message-parser.c | 48
+ +++++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
+
+commit b9d63f822a57fc09afacbef37cbe2cd57bd1054d
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 26 22:05:22 2019 +0100
+
+    build-aux,message: no longer need early out count management
+
+ build-aux/mbim-codegen/Message.py | 53
+ +++------------------------------------
+ 1 file changed, 3 insertions(+), 50 deletions(-)
+
+commit 02631fbb74c5daed91f1d56595b4bab0ed54d962
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 26 21:56:21 2019 +0100
+
+    build-aux,struct: no longer need early out count management
+
+ build-aux/mbim-codegen/Struct.py | 23 ++---------------------
+ 1 file changed, 2 insertions(+), 21 deletions(-)
+
+commit d498e9323ea133de9993d1fba7f4d548e8ca2152
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 26 21:42:26 2019 +0100
+
+    libmbim-glib,message: reading IPv6 array may fail
+
+ build-aux/mbim-codegen/Message.py       |  9 ++++---
+ src/libmbim-glib/mbim-message-private.h |  9 ++++---
+ src/libmbim-glib/mbim-message.c         | 43
+ +++++++++++++++++++++++++--------
+ 3 files changed, 44 insertions(+), 17 deletions(-)
+
+commit 5ddf637c1636c79eaf69dee6fb5223fea9766927
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 26 21:34:02 2019 +0100
+
+    libmbim-glib,message: reading IPv6 may fail
+
+ build-aux/mbim-codegen/Message.py       | 18 ++++++++++-----
+ build-aux/mbim-codegen/Struct.py        | 22 ++++++++++++++----
+ src/libmbim-glib/mbim-message-private.h |  8 ++++---
+ src/libmbim-glib/mbim-message.c         | 40
+ ++++++++++++++++++++++++++-------
+ 4 files changed, 67 insertions(+), 21 deletions(-)
+
+commit f39f22bd173b27b925b8aaa76650d92ea72584c0
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 26 20:17:06 2019 +0100
+
+    libmbim-glib,message: reading IPv4 array may fail
+
+ build-aux/mbim-codegen/Message.py       |  9 ++++---
+ src/libmbim-glib/mbim-message-private.h |  8 ++++---
+ src/libmbim-glib/mbim-message.c         | 42
+ +++++++++++++++++++++++++--------
+ 3 files changed, 43 insertions(+), 16 deletions(-)
+
+commit 91568c1a79790754eecaaeaf0cf53c27c6494c49
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 26 20:07:25 2019 +0100
+
+    libmbim-glib,message: reading IPv4 may fail
+
+ build-aux/mbim-codegen/Message.py       | 18 ++++++++++-----
+ build-aux/mbim-codegen/Struct.py        | 22 ++++++++++++++----
+ src/libmbim-glib/mbim-message-private.h |  8 ++++---
+ src/libmbim-glib/mbim-message.c         | 40
+ ++++++++++++++++++++++++++-------
+ 4 files changed, 67 insertions(+), 21 deletions(-)
+
+commit 8ecb23418fd79f25458b35363738ebdbe8c8ff11
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 26 18:28:49 2019 +0100
+
+    libmbim-glib,message: reading string array may fail
+
+ build-aux/mbim-codegen/Message.py       |  9 +++++---
+ build-aux/mbim-codegen/Struct.py        |  4 +++-
+ src/libmbim-glib/mbim-message-private.h | 11 ++++-----
+ src/libmbim-glib/mbim-message.c         | 40
+ +++++++++++++++++++++------------
+ 4 files changed, 41 insertions(+), 23 deletions(-)
+
+commit d01b83df1b96172b90cf70ca2f6fdd39fe3a2539
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 26 18:23:26 2019 +0100
+
+    libmbim-glib,message: reading string may fail
+
+ build-aux/mbim-codegen/Message.py       |  9 +++--
+ build-aux/mbim-codegen/Struct.py        |  4 +-
+ src/libmbim-glib/mbim-message-private.h |  9 +++--
+ src/libmbim-glib/mbim-message.c         | 66
+ +++++++++++++++++++++------------
+ src/libmbim-glib/mbim-proxy.c           |  7 ++--
+ 5 files changed, 62 insertions(+), 33 deletions(-)
+
+commit 74068b23d1db1d73f6a91a14d87f1b251edd907d
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 26 16:59:48 2019 +0100
+
+    libmbim-glib,message: reading guint64 may fail
+
+ build-aux/mbim-codegen/Message.py       | 21 ++++++++++++++++++---
+ build-aux/mbim-codegen/Struct.py        |  4 +++-
+ src/libmbim-glib/mbim-message-private.h |  6 ++++--
+ src/libmbim-glib/mbim-message.c         | 29
+ ++++++++++++++++++++++-------
+ 4 files changed, 47 insertions(+), 13 deletions(-)
+
+commit 093b0bf07eb85d989c6db855bcb63ef36ab372b9
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 26 16:52:58 2019 +0100
+
+    libmbim-glib,message: reading guint32 array may fail
+
+ build-aux/mbim-codegen/Struct.py        |  4 ++-
+ src/libmbim-glib/mbim-message-private.h |  8 ++++--
+ src/libmbim-glib/mbim-message.c         | 49
+ +++++++++++++++++++++------------
+ src/libmbim-glib/mbim-proxy-helpers.c   |  4 +--
+ 4 files changed, 41 insertions(+), 24 deletions(-)
+
+commit 3e33a1e839254940ff17b4b38923dca21f857a6a
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 26 16:44:58 2019 +0100
+
+    libmbim-glib,message: reading guint32 may fail
+
+ build-aux/mbim-codegen/Message.py       | 37
+ +++++++++++++++++++++++++--------
+ build-aux/mbim-codegen/Struct.py        | 14 +++++++++----
+ src/libmbim-glib/mbim-message-private.h |  6 ++++--
+ src/libmbim-glib/mbim-message.c         | 29 +++++++++++++++++++-------
+ src/libmbim-glib/mbim-proxy-helpers.c   | 24 ++++++++++-----------
+ src/libmbim-glib/mbim-proxy.c           |  8 ++++++-
+ 6 files changed, 82 insertions(+), 36 deletions(-)
+
+commit b7c36db1550521336262508deadda195d3feb5b4
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 26 15:29:49 2019 +0100
+
+    libmbim-glib,message: reading uuid may fail
+
+ build-aux/mbim-codegen/Message.py       | 11 +++++++----
+ build-aux/mbim-codegen/Struct.py        | 11 +++++++++--
+ src/libmbim-glib/mbim-message-private.h |  6 ++++--
+ src/libmbim-glib/mbim-message.c         | 24 +++++++++++++++++++-----
+ src/libmbim-glib/mbim-proxy-helpers.c   | 17 +++++++++++++----
+ 5 files changed, 52 insertions(+), 17 deletions(-)
+
+commit 28084e36e20d2436cf9dff03f83fc3f150c2b9e2
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 26 19:34:12 2019 +0100
+
+    libmbim-glib,test: fix byte array reading test
+
+    The STK buffer is 256 bytes, fixed-size, so use that array size for
+    the actual test, or it'll fail with the new strict reading checks.
+
+ src/libmbim-glib/test/test-message-parser.c | 56
+ +++++++++++++++++++++++++++--
+ 1 file changed, 53 insertions(+), 3 deletions(-)
+
+commit 413133f2f88b6636a7f2613e7fead937a5be8b33
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 26 13:03:15 2019 +0100
+
+    libmbim-glib,message: reading byte array may fail
+
+ build-aux/mbim-codegen/Message.py       |  32 ++++++---
+ build-aux/mbim-codegen/Struct.py        |  24 +++++--
+ src/libmbim-glib/mbim-message-private.h |  18 +++--
+ src/libmbim-glib/mbim-message.c         | 116
+ +++++++++++++++++++++++++++-----
+ 4 files changed, 154 insertions(+), 36 deletions(-)
+
+commit 45545bb78e8f3c0a72b4a5075f0652f167c38e54
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 26 16:36:23 2019 +0100
+
+    libmbim-glib,proxy: helper service_subscribe_request_parse() may fail
+
+ src/libmbim-glib/mbim-proxy-helpers.c      |  5 +++--
+ src/libmbim-glib/mbim-proxy-helpers.h      |  3 ++-
+ src/libmbim-glib/mbim-proxy.c              | 14 +++++++++++++-
+ src/libmbim-glib/test/test-proxy-helpers.c |  9 ++++++---
+ 4 files changed, 24 insertions(+), 7 deletions(-)
+
+commit 896cd9cbca60a90609a6cedb23d6c176b5b12b8d
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 26 14:54:10 2019 +0100
+
+    build-aux,message: struct reading may fail
+
+ build-aux/mbim-codegen/Message.py | 49 +++++++++++++++++++-----
+ build-aux/mbim-codegen/Struct.py  | 79
+ +++++++++++++++++++++++----------------
+ 2 files changed, 86 insertions(+), 42 deletions(-)
+
+commit 60da80336b13fab5039e84fc8803ade278ed2edb
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 26 13:13:04 2019 +0100
+
+    build-aux,struct: setup base logic to abort early
+
+ build-aux/mbim-codegen/Struct.py | 26 ++++++++++++++++++++++----
+ 1 file changed, 22 insertions(+), 4 deletions(-)
+
+commit 3ebb80f9e35d84a185dd7e49f6092fb7621ea1d7
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 26 11:45:05 2019 +0100
+
+    build-aux,message: setup base logic to abort early
+
+    All memory allocated variables will be freed if the parsing is aborted
+    at any time.
+
+ build-aux/mbim-codegen/Message.py | 51
+ +++++++++++++++++++++++++++++++++------
+ 1 file changed, 43 insertions(+), 8 deletions(-)
+
+commit ab6a1bd1df422968ef526e615f30945e343c5baf
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 26 11:30:19 2019 +0100
+
+    build-aux,message: set all output mem allocated variables just
+    before returning
+
+    This is just a minor refactor to make it easier to abort the
+    processing early if reading specific fields fail.
+
+ build-aux/mbim-codegen/Message.py | 66
+ ++++++++++++++++++++++++++++++++-------
+ 1 file changed, 55 insertions(+), 11 deletions(-)
+
+commit fd3306c8070aae12fda4f4493de3cdef6f73a34c
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 26 10:57:10 2019 +0100
+
+    build-aux,message: always reset inner template
+
+    So that the 'else' path has an empty string as template.
+
+ build-aux/mbim-codegen/Message.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+commit 2f27283834cb54492b3f9cf72f7d83b0a9838063
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon Nov 25 15:04:26 2019 +0100
+
+    build-aux,message: rename output variables in message parsers as
+    'out_..'
+
+ build-aux/mbim-codegen/Message.py | 198
+ +++++++++++++++++++-------------------
+ 1 file changed, 99 insertions(+), 99 deletions(-)
+
+commit 80b27d4dc307451cea631f3a7c25d1845f457911
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon Nov 25 13:37:11 2019 +0100
+
+    build-aux,message: error out if trying to parse contents and none
+    given
+
+    If the message doesn't have an information buffer, don't allow
+    content parsing.
+
+ build-aux/mbim-codegen/Message.py | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+commit 404de179081c52ae310adae16788fb5f68e7d30a
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon Nov 25 13:33:45 2019 +0100
+
+    libmbim-glib,message: allow NULL length output when getting
+    information buffer
+
+ src/libmbim-glib/mbim-message.c | 39
+ ++++++++++++++++++++++++---------------
+ src/libmbim-glib/mbim-message.h |  6 +++---
+ 2 files changed, 27 insertions(+), 18 deletions(-)
+
+commit d08dd6f0071f94838c5f6fd78413c7f51461ba8e
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Thu Nov 21 11:50:54 2019 +0100
+
+    mbimcli: G_LOG_FLAG_FATAL is an internal flag
+
+ src/mbimcli/mbimcli.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 0cb13839345633fa0dfe8d11393231d59e7defd8
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Nov 20 15:21:38 2019 +0100
+
+    libmbim-glib,device: fix warnings with -Wimplicit-fallthrough
+
+      mbim-device.c: In function ‘device_open_context_step’:
+      mbim-device.c:1601:18: warning: this statement may fall through
+      [-Wimplicit-fallthrough=]
+       1601 |         ctx->step++;
+            |         ~~~~~~~~~^~
+      mbim-device.c:1604:5: note: here
+       1604 |     case DEVICE_OPEN_CONTEXT_STEP_CREATE_IOCHANNEL:
+            |     ^~~~
+      mbim-device.c:1616:18: warning: this statement may fall through
+      [-Wimplicit-fallthrough=]
+       1616 |         ctx->step++;
+            |         ~~~~~~~~~^~
+      mbim-device.c:1619:5: note: here
+       1619 |     case DEVICE_OPEN_CONTEXT_STEP_CLOSE_MESSAGE:
+            |     ^~~~
+      mbim-device.c:1626:18: warning: this statement may fall through
+      [-Wimplicit-fallthrough=]
+       1626 |         ctx->step++;
+            |         ~~~~~~~~~^~
+      mbim-device.c:1629:5: note: here
+       1629 |     case DEVICE_OPEN_CONTEXT_STEP_OPEN_MESSAGE:
+            |     ^~~~
+      mbim-device.c:1635:18: warning: this statement may fall through
+      [-Wimplicit-fallthrough=]
+       1635 |         ctx->step++;
+            |         ~~~~~~~~~^~
+      mbim-device.c:1638:5: note: here
+       1638 |     case DEVICE_OPEN_CONTEXT_STEP_LAST:
+            |     ^~~~
+
+ src/libmbim-glib/mbim-device.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+commit 140c87ff54aba91d86bac41fa7aa974ce333d6d4
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Nov 20 15:19:14 2019 +0100
+
+    libmbim-glib,message: avoid warning with -Wsuggest-attribute=noreturn
+
+      mbim-message.c: In function
+      ‘_mbim_struct_builder_append_string_array’:
+      mbim-message.c:749:1: warning: function might be candidate for
+      attribute ‘noreturn’ [-Wsuggest-attribute=noreturn]
+        749 | _mbim_struct_builder_append_string_array (MbimStructBuilder
+        *builder,
+            | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ src/libmbim-glib/mbim-message.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 63935cc128285537248865bf4e1501fb63ca4088
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Nov 20 15:16:02 2019 +0100
+
+    libmbim-glib,message: fix warnings with -Wswitch-enum
+
+      mbim-message.c:1321:9: warning: enumeration value
+      ‘MBIM_SERVICE_INVALID’ not handled in switch [-Wswitch-enum]
+       1321 |         switch (service_read_fields) {
+            |         ^~~~~~
+      mbim-message.c:1321:9: warning: enumeration value
+      ‘MBIM_SERVICE_LAST’ not handled in switch [-Wswitch-enum]
+
+      mbim-message.c: In function ‘mbim_message_response_get_result’:
+      mbim-message.c:2307:5: warning: enumeration value
+      ‘MBIM_MESSAGE_TYPE_INVALID’ not handled in switch
+      [-Wswitch-enum]
+       2307 |     switch (type) {
+            |     ^~~~~~
+      mbim-message.c:2307:5: warning: enumeration value
+      ‘MBIM_MESSAGE_TYPE_OPEN’ not handled in switch [-Wswitch-enum]
+      mbim-message.c:2307:5: warning: enumeration value
+      ‘MBIM_MESSAGE_TYPE_CLOSE’ not handled in switch [-Wswitch-enum]
+      mbim-message.c:2307:5: warning: enumeration value
+      ‘MBIM_MESSAGE_TYPE_COMMAND’ not handled in switch
+      [-Wswitch-enum]
+      mbim-message.c:2307:5: warning: enumeration value
+      ‘MBIM_MESSAGE_TYPE_HOST_ERROR’ not handled in switch
+      [-Wswitch-enum]
+      mbim-message.c:2307:5: warning: enumeration value
+      ‘MBIM_MESSAGE_TYPE_INDICATE_STATUS’ not handled in switch
+      [-Wswitch-enum]
+
+ src/libmbim-glib/mbim-message.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+commit 88dcc5724c5461cd0b7a7f7a79a63a32ece0b2de
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Nov 20 15:14:29 2019 +0100
+
+    libmbim-glib,message: fix warnings with -Wswitch-default
+
+      mbim-message.c: In function ‘mbim_message_get_printable’:
+      mbim-message.c:1169:5: warning: switch missing default case
+      [-Wswitch-default]
+       1169 |     switch (MBIM_MESSAGE_GET_MESSAGE_TYPE (self)) {
+            |     ^~~~~~
+
+ src/libmbim-glib/mbim-message.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+commit 23e572bbdbc61831cb0cdb682b3b01969791ba74
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Nov 20 15:09:45 2019 +0100
+
+    libmbim-glib,cid: fix warnings with -Wswitch-enum
+
+      mbim-uuid.c: In function ‘mbim_uuid_from_service’:
+      mbim-uuid.c:402:5: warning: enumeration value
+      ‘MBIM_SERVICE_LAST’ not handled in switch [-Wswitch-enum]
+        402 |     switch (service) {
+            |     ^~~~~~
+        CC       libmbim_glib_core_la-mbim-cid.lo
+      mbim-cid.c: In function ‘mbim_cid_can_set’:
+      mbim-cid.c:200:5: warning: enumeration value
+      ‘MBIM_SERVICE_INVALID’ not handled in switch [-Wswitch-enum]
+        200 |     switch (service) {
+            |     ^~~~~~
+      mbim-cid.c:200:5: warning: enumeration value ‘MBIM_SERVICE_LAST’
+      not handled in switch [-Wswitch-enum]
+      mbim-cid.c: In function ‘mbim_cid_can_query’:
+      mbim-cid.c:254:5: warning: enumeration value
+      ‘MBIM_SERVICE_INVALID’ not handled in switch [-Wswitch-enum]
+        254 |     switch (service) {
+            |     ^~~~~~
+      mbim-cid.c:254:5: warning: enumeration value ‘MBIM_SERVICE_LAST’
+      not handled in switch [-Wswitch-enum]
+      mbim-cid.c: In function ‘mbim_cid_can_notify’:
+      mbim-cid.c:308:5: warning: enumeration value
+      ‘MBIM_SERVICE_INVALID’ not handled in switch [-Wswitch-enum]
+        308 |     switch (service) {
+            |     ^~~~~~
+      mbim-cid.c:308:5: warning: enumeration value ‘MBIM_SERVICE_LAST’
+      not handled in switch [-Wswitch-enum]
+      mbim-cid.c: In function ‘mbim_cid_get_printable’:
+      mbim-cid.c:362:5: warning: enumeration value ‘MBIM_SERVICE_LAST’
+      not handled in switch [-Wswitch-enum]
+        362 |     switch (service) {
+            |     ^~~~~~
+
+ src/libmbim-glib/mbim-cid.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+commit b9ca93b4492e5f2bb2a646fda1c3a4d582133310
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Nov 20 15:07:48 2019 +0100
+
+    libmbim-glib,uuid: fix warnings with -Wswitch-enum
+
+      mbim-uuid.c: In function ‘mbim_uuid_from_service’:
+      mbim-uuid.c:402:5: warning: enumeration value
+      ‘MBIM_SERVICE_LAST’ not handled in switch [-Wswitch-enum]
+        402 |     switch (service) {
+            |     ^~~~~~
+        CC       libmbim_glib_core_la-mbim-cid.lo
+
+ src/libmbim-glib/mbim-uuid.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit 6285b5a303a8ba6e46c49a82eb07de4f125b6090
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Nov 20 15:04:51 2019 +0100
+
+    libmbim-glib,device: fix warnings with -Wswitch-default
+
+      mbim-device.c: In function ‘process_message’:
+      mbim-device.c:579:5: warning: switch missing default case
+      [-Wswitch-default]
+        579 |     switch (MBIM_MESSAGE_GET_MESSAGE_TYPE (message)) {
+            |     ^~~~~~
+
+      mbim-device.c: In function ‘device_write’:
+      mbim-device.c:1951:9: warning: switch missing default case
+      [-Wswitch-default]
+       1951 |         switch (write_status) {
+            |         ^~~~~~
+
+ src/libmbim-glib/mbim-device.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+commit ff5d9807a5873065e8cedd33c4682a379eb0533a
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Nov 20 15:02:57 2019 +0100
+
+    libmbim-glib,proxy: fix warnings with -Wswitch-enum
+
+      mbim-proxy.c: In function ‘process_message’:
+      mbim-proxy.c:1018:5: warning: enumeration value
+      ‘MBIM_MESSAGE_TYPE_INVALID’ not handled in switch
+      [-Wswitch-enum]
+       1018 |     switch (mbim_message_get_message_type (message)) {
+            |     ^~~~~~
+      mbim-proxy.c:1018:5: warning: enumeration value
+      ‘MBIM_MESSAGE_TYPE_HOST_ERROR’ not handled in switch
+      [-Wswitch-enum]
+      mbim-proxy.c:1018:5: warning: enumeration value
+      ‘MBIM_MESSAGE_TYPE_OPEN_DONE’ not handled in switch
+      [-Wswitch-enum]
+      mbim-proxy.c:1018:5: warning: enumeration value
+      ‘MBIM_MESSAGE_TYPE_CLOSE_DONE’ not handled in switch
+      [-Wswitch-enum]
+      mbim-proxy.c:1018:5: warning: enumeration value
+      ‘MBIM_MESSAGE_TYPE_COMMAND_DONE’ not handled in switch
+      [-Wswitch-enum]
+      mbim-proxy.c:1018:5: warning: enumeration value
+      ‘MBIM_MESSAGE_TYPE_FUNCTION_ERROR’ not handled in switch
+      [-Wswitch-enum]
+      mbim-proxy.c:1018:5: warning: enumeration value
+      ‘MBIM_MESSAGE_TYPE_INDICATE_STATUS’ not handled in switch
+      [-Wswitch-enum]
+
+ src/libmbim-glib/mbim-proxy.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+commit 6bc51195b2e8302d96d1ff9c8c56a4447c386600
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Nov 20 14:25:27 2019 +0100
+
+    libmbim-glib,message: fix warnings with -Wswitch-enum
+
+      mbim-message.c: In function
+      ‘_mbim_message_get_information_buffer_offset’:
+      mbim-message.c:146:5: warning: enumeration value
+      ‘MBIM_MESSAGE_TYPE_INVALID’ not handled in switch
+      [-Wswitch-enum]
+        146 |     switch (MBIM_MESSAGE_GET_MESSAGE_TYPE (self)) {
+            |     ^~~~~~
+      mbim-message.c:146:5: warning: enumeration value
+      ‘MBIM_MESSAGE_TYPE_OPEN’ not handled in switch [-Wswitch-enum]
+      mbim-message.c:146:5: warning: enumeration value
+      ‘MBIM_MESSAGE_TYPE_CLOSE’ not handled in switch [-Wswitch-enum]
+      mbim-message.c:146:5: warning: enumeration value
+      ‘MBIM_MESSAGE_TYPE_HOST_ERROR’ not handled in switch
+      [-Wswitch-enum]
+      mbim-message.c:146:5: warning: enumeration value
+      ‘MBIM_MESSAGE_TYPE_OPEN_DONE’ not handled in switch
+      [-Wswitch-enum]
+      mbim-message.c:146:5: warning: enumeration value
+      ‘MBIM_MESSAGE_TYPE_CLOSE_DONE’ not handled in switch
+      [-Wswitch-enum]
+      mbim-message.c:146:5: warning: enumeration value
+      ‘MBIM_MESSAGE_TYPE_FUNCTION_ERROR’ not handled in switch
+      [-Wswitch-enum]
+
+ src/libmbim-glib/mbim-message.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+commit d32e6c70420b92a342cee3b2dde16a415c047245
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Nov 20 14:17:44 2019 +0100
+
+    build-aux: fix warnings with -Wswitch-enum
+
+      mbim-basic-connect.c: In function
+      ‘__mbim_message_basic_connect_get_printable_fields’:
+      mbim-basic-connect.c:10724:5: warning: enumeration value
+      ‘MBIM_MESSAGE_TYPE_OPEN’ not handled in switch [-Wswitch-enum]
+      10724 |     switch (mbim_message_get_message_type (message)) {
+            |     ^~~~~~
+
+      mbim-basic-connect.c: In function
+      ‘__mbim_message_basic_connect_get_printable_fields’:
+      mbim-basic-connect.c:10728:17: warning: enumeration value
+      ‘MBIM_MESSAGE_COMMAND_TYPE_UNKNOWN’ not handled in switch
+      [-Wswitch-enum]
+      10728 |                 switch
+      (mbim_message_command_get_command_type (message)) {
+            |                 ^~~~~~
+
+ build-aux/mbim-codegen/ObjectList.py | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+commit 02a9c9791a9acf4770e6dec16e6962645af36c9f
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Nov 20 14:10:53 2019 +0100
+
+    build-aux: fix warning in the built _get_string() methods with
+    -Wsign-compare
+
+      mbim-error-types.c: In function ‘mbim_core_error_get_string’:
+      mbim-error-types.c:53:17: warning: comparison of integer
+      expressions of different signedness: ‘MbimCoreError’ {aka
+      ‘enum <anonymous>’} and ‘gint’ {aka ‘const int’}
+      [-Wsign-compare]
+         53 |         if (val == mbim_core_error_values[i].value)
+            |                 ^~
+
+      mbim-enum-types.c: In function
+      ‘mbim_cid_basic_connect_get_string’:
+      mbim-enum-types.c:68:17: warning: comparison of integer
+      expressions of different signedness: ‘MbimCidBasicConnect’
+      {aka ‘enum <anonymous>’} and ‘gint’ {aka ‘const int’}
+      [-Wsign-compare]
+         68 |         if (val == mbim_cid_basic_connect_values[i].value)
+            |                 ^~
+
+      mbim-enum-types.c: In function
+      ‘mbim_data_class_build_string_from_mask’:
+      mbim-enum-types.c:1958:18: warning: comparison of integer
+      expressions of different signedness: ‘MbimDataClass’ {aka
+      ‘enum <anonymous>’} and ‘guint’ {aka ‘const unsigned
+      int’} [-Wsign-compare]
+       1958 |         if (mask == mbim_data_class_values[i].value) {
+            |                  ^~
+        CC       libmbim_glib_generated_la-mbim-basic-connect.lo
+
+ build-aux/templates/mbim-enum-types-template.c  | 4 ++--
+ build-aux/templates/mbim-error-types-template.c | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+commit b9c011634ea5e890610f431456c973d20d4dee2b
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Nov 20 14:09:18 2019 +0100
+
+    mbimcli: fix warnings with -Wdouble-promotion
+
+      mbimcli-atds.c: In function ‘query_signal_ready’:
+      mbimcli-atds.c:200:55: warning: implicit conversion from ‘float’
+      to ‘double’ to match other operand of binary expression
+      [-Wdouble-promotion]
+        200 |         ecno_str = g_strdup_printf ("%.2f dBm", -24.0 +
+        ((float) ecno / 2));
+            |                                                       ^
+      mbimcli-atds.c:207:55: warning: implicit conversion from ‘float’
+      to ‘double’ to match other operand of binary expression
+      [-Wdouble-promotion]
+        207 |         rsrq_str = g_strdup_printf ("%.2f dBm", -19.5 +
+        ((float) rsrq / 2));
+            |
+
+ src/mbimcli/mbimcli-atds.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit 862710295bcba06aadd8affbbb3d1468aa4f6ede
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Nov 20 14:06:32 2019 +0100
+
+    mbimcli: fix warnings with -Wswitch-default
+
+      mbimcli-atds.c: In function ‘query_signal_ready’:
+      mbimcli-atds.c:160:5: warning: switch missing default case
+      [-Wswitch-default]
+        160 |     switch (error_rate) {
+            |     ^~~~~~
+
+ src/mbimcli/mbimcli-atds.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+commit e59c5c19a948f324964e994386f3d0c392e4ffe1
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Nov 20 14:03:19 2019 +0100
+
+    mbimcli: fix warnings with -Wsign-compare
+
+      mbimcli-basic-connect.c: In function
+      ‘provisioned_contexts_ready’:
+      mbimcli-basic-connect.c:1810:19: warning: comparison of integer
+      expressions of different signedness: ‘int’ and ‘guint32’
+      {aka ‘unsigned int’} [-Wsign-compare]
+       1810 |     for (i = 0; i < provisioned_contexts_count; i++) {
+            |                   ^
+
+      mbimcli-phonebook.c: In function ‘query_phonebook_read_ready’:
+      mbimcli-phonebook.c:285:19: warning: comparison of integer
+      expressions of different signedness: ‘gint’ {aka ‘int’}
+      and ‘guint32’ {aka ‘unsigned int’} [-Wsign-compare]
+        285 |     for (i = 0; i < entry_count; i++) {
+            |                   ^
+
+ src/mbimcli/mbimcli-basic-connect.c | 2 +-
+ src/mbimcli/mbimcli-phonebook.c     | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+commit f2d2a7897b08df41e15f5efc10a78a35c0b3a210
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Nov 20 14:01:58 2019 +0100
+
+    mbimcli: fix warnings with -Wsign-compare
+
+      mbimcli-basic-connect.c: In function ‘connect_session_id_parse’:
+      mbimcli-basic-connect.c:1107:54: warning: comparison of integer
+      expressions of different signedness: ‘long int’ and ‘size_t’
+      {aka ‘long unsigned int’} [-Wsign-compare]
+       1107 |     if (errno || n < 0 || n > 255 || ((endptr - str) <
+       strlen (str))) {
+            |                                                      ^
+
+      mbimcli-ms-basic-connect-extensions.c: In function
+      ‘session_id_parse’:
+      mbimcli-ms-basic-connect-extensions.c:114:54: warning: comparison
+      of integer expressions of different signedness: ‘long int’
+      and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+        114 |     if (errno || n < 0 || n > 255 || ((endptr - str) <
+        strlen (str))) {
+            |                                                      ^
+
+ src/mbimcli/mbimcli-basic-connect.c               | 2 +-
+ src/mbimcli/mbimcli-ms-basic-connect-extensions.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+commit 2d4bcd3161115f0aa4d969eae40eec49d9637067
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 19 12:39:45 2019 +0100
+
+    mbimcli: fix warnings with -Wswitch-enum
+
+      mbimcli.c: In function ‘device_open_ready’:
+      mbimcli.c:265:5: warning: enumeration value
+      ‘MBIM_SERVICE_INVALID’ not handled in switch [-Wswitch-enum]
+        265 |     switch (service) {
+            |     ^~~~~~
+      mbimcli.c:265:5: warning: enumeration value ‘MBIM_SERVICE_SMS’
+      not handled in switch [-Wswitch-enum]
+      mbimcli.c:265:5: warning: enumeration value ‘MBIM_SERVICE_USSD’
+      not handled in switch [-Wswitch-enum]
+      mbimcli.c:265:5: warning: enumeration value ‘MBIM_SERVICE_STK’
+      not handled in switch [-Wswitch-enum]
+      mbimcli.c:265:5: warning: enumeration value ‘MBIM_SERVICE_AUTH’
+      not handled in switch [-Wswitch-enum]
+      mbimcli.c:265:5: warning: enumeration value
+      ‘MBIM_SERVICE_PROXY_CONTROL’ not handled in switch
+      [-Wswitch-enum]
+      mbimcli.c:265:5: warning: enumeration value ‘MBIM_SERVICE_QMI’
+      not handled in switch [-Wswitch-enum]
+
+ src/mbimcli/mbimcli.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+commit 5ffe757ac6dbb88bd45e179f112cff9cb76a14ee
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 19 12:36:50 2019 +0100
+
+    mbim-proxy: fix warnings with -Wswitch-enum
+
+      mbim-proxy.c: In function ‘log_handler’:
+      mbim-proxy.c:101:5: warning: enumeration value
+      ‘G_LOG_FLAG_RECURSION’ not handled in switch [-Wswitch-enum]
+        101 |     switch (log_level) {
+            |     ^~~~~~
+      mbim-proxy.c:101:5: warning: enumeration value
+      ‘G_LOG_LEVEL_MESSAGE’ not handled in switch [-Wswitch-enum]
+      mbim-proxy.c:101:5: warning: enumeration value
+      ‘G_LOG_LEVEL_INFO’ not handled in switch [-Wswitch-enum]
+      mbim-proxy.c:101:5: warning: enumeration value
+      ‘G_LOG_LEVEL_MASK’ not handled in switch [-Wswitch-enum]
+
+ src/mbim-proxy/mbim-proxy.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+commit b95dd7a12da2815e01d9ceb218d4532e066385cf
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 19 12:36:11 2019 +0100
+
+    mbimcli: fix warnings with -Wswitch-enum
+
+        mbimcli.c: In function ‘log_handler’:
+        mbimcli.c:138:5: warning: enumeration value
+        ‘G_LOG_FLAG_RECURSION’ not handled in switch [-Wswitch-enum]
+          138 |     switch (log_level) {
+              |     ^~~~~~
+        mbimcli.c:138:5: warning: enumeration value
+        ‘G_LOG_LEVEL_MESSAGE’ not handled in switch [-Wswitch-enum]
+        mbimcli.c:138:5: warning: enumeration value ‘G_LOG_LEVEL_INFO’
+        not handled in switch [-Wswitch-enum]
+        mbimcli.c:138:5: warning: enumeration value ‘G_LOG_LEVEL_MASK’
+        not handled in switch [-Wswitch-enum]
+
+ src/mbimcli/mbimcli.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+commit 448e8fe7c50493c2c42399ed903906b9bb35d244
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 19 12:28:59 2019 +0100
+
+    build: use AX_IS_RELEASE() and AX_COMPILER_FLAGS()
+
+    The autoconf macros AX_COMPILER_FLAGS_{CFLAGS|GIR|LDFLAGS} test
+    for compiler and linker support of various flags, and add the flags to
+    the generated output.
+
+    If the command-line option '--enable-compile-warnings' is specified to
+    'configure', a number of additional warning options is also added to
+    the output. This is the default.
+
+    This update requires the presence of the GNU autoconf-archive in the
+    system when building from git (not required when building from a
+    source tarball).
+
+ configure.ac                           | 30 ++++++++++++++++++++++++--
+ m4/compiler-warnings.m4                | 39
+ ----------------------------------
+ src/common/Makefile.am                 |  2 ++
+ src/common/test/Makefile.am            |  2 ++
+ src/libmbim-glib/Makefile.am           |  2 ++
+ src/libmbim-glib/generated/Makefile.am |  2 ++
+ src/libmbim-glib/test/Makefile.am      |  2 ++
+ src/mbim-proxy/Makefile.am             |  2 ++
+ src/mbimcli/Makefile.am                |  2 ++
+ 9 files changed, 42 insertions(+), 41 deletions(-)
+
+commit fce75f2242e4e1a38e300b3af527ee131c32f980
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 19 12:41:08 2019 +0100
+
+    ci: require autoconf-archive
+
+ .gitlab-ci.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit aa36234e905a31da045e8c09f2ac2b2204a40cf6
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 19 12:19:39 2019 +0100
+
+    build: rework cflags/cppflags/ldflags
+
+ src/common/Makefile.am                 |  13 +++-
+ src/common/test/Makefile.am            |  22 ++++--
+ src/libmbim-glib/Makefile.am           |  24 +++---
+ src/libmbim-glib/generated/Makefile.am |  11 ++-
+ src/libmbim-glib/test/Makefile.am      | 129
+ +++++++++------------------------
+ src/mbim-proxy/Makefile.am             |  12 ++-
+ src/mbimcli/Makefile.am                |  13 +++-
+ 7 files changed, 99 insertions(+), 125 deletions(-)
+
+commit 60f686ba451b1b64da828503da06c2c00cabe138
 Author: Aleksander Morgado <aleksander@aleksander.es>
 Date:   Tue Nov 19 11:44:23 2019 +0100
 
     libmbim-glib,uuid: remove redundant declaration
 
-    (cherry picked from commit 60f686ba451b1b64da828503da06c2c00cabe138)
-
  src/libmbim-glib/mbim-uuid.h | 2 --
  1 file changed, 2 deletions(-)
 
-commit 1d26e0be933ca48e2570456cacc13433fb3a58e4
-Author: Aleksander Morgado <aleksander@aleksander.es>
-Date:   Wed Nov 6 12:16:13 2019 +0100
-
-    build: post-release version bump to 1.20.3
-
- configure.ac | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-commit 824812a906940884a0fab909d86734a65173f46c
-Author: Aleksander Morgado <aleksander@aleksander.es>
-Date:   Wed Nov 6 12:10:35 2019 +0100
-
-    release: bump version to 1.20.2
-
- configure.ac | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-commit ce41a4f3cbe7095a1ae366970d4cd9a21f4d1e20
-Author: Aleksander Morgado <aleksander@aleksander.es>
-Date:   Wed Nov 6 12:10:25 2019 +0100
-
-    NEWS: update for 1.20.2
-
- NEWS | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-commit 927beffed739af071ab68e4e91a191dde2ed51be
+commit eceb6b70ad74dc5c346561c382cb02795b4870f6
 Author: Aleksander Morgado <aleksander@aleksander.es>
 Date:   Mon Nov 4 10:36:09 2019 +0100
 
@@ -132,23 +1024,19 @@ Date:   Mon Nov 4 10:36:09 2019 +0100
 
     Fixes https://gitlab.freedesktop.org/mobile-broadband/libmbim/issues/8
 
-    (cherry picked from commit eceb6b70ad74dc5c346561c382cb02795b4870f6)
-
  src/libmbim-glib/mbim-device.c | 20 ++++++++++++++------
  1 file changed, 14 insertions(+), 6 deletions(-)
 
-commit 3f0139cf945f78d88b3147835e366078dd7d8434
+commit 0bbe65cc3b4bd1321dc6e14dfe74b963ef8ba257
 Author: Aleksander Morgado <aleksander@aleksander.es>
 Date:   Sat Sep 21 14:38:28 2019 +0200
 
     libmbim-glib,proxy: plug memleak
 
-    (cherry picked from commit 0bbe65cc3b4bd1321dc6e14dfe74b963ef8ba257)
-
  src/libmbim-glib/mbim-proxy.c | 2 ++
  1 file changed, 2 insertions(+)
 
-commit 1b24dd3dda3409ec4b186398316e9a4f47f78330
+commit 40640217fb40921c787cf309d6b988f04f1af84c
 Author: Aleksander Morgado <aleksander@aleksander.es>
 Date:   Sat Sep 21 14:01:30 2019 +0200
 
@@ -159,12 +1047,10 @@ Date:   Sat Sep 21 14:01:30 2019 +0200
 
     Fixes https://gitlab.freedesktop.org/mobile-broadband/libmbim/issues/6
 
-    (cherry picked from commit 40640217fb40921c787cf309d6b988f04f1af84c)
-
  src/libmbim-glib/mbim-proxy.c | 22 ++++++++++++++++++----
  1 file changed, 18 insertions(+), 4 deletions(-)
 
-commit 54903a86e84df3b9f3d0bec2d3e95d3ef380cb5e
+commit b0ede0ce4626353e89387f8bb3ab05b608f2e38d
 Author: Aleksander Morgado <aleksander@aleksander.es>
 Date:   Sat Sep 21 14:00:15 2019 +0200
 
@@ -173,29 +1059,44 @@ Date:   Sat Sep 21 14:00:15 2019 +0200
 
     Fixes https://gitlab.freedesktop.org/mobile-broadband/libmbim/issues/6
 
-    (cherry picked from commit b0ede0ce4626353e89387f8bb3ab05b608f2e38d)
-
  src/libmbim-glib/mbim-device.c | 14 +++++++++++---
  1 file changed, 11 insertions(+), 3 deletions(-)
 
-commit 2aabb1f1831ae9aa9f3fe1325113f2ea420c5708
+commit 4932766d8cc77430283f708385eab45cc13bbc6a
 Author: Aleksander Morgado <aleksander@aleksander.es>
 Date:   Sat Sep 21 13:59:51 2019 +0200
 
     libmbim-glib,utils: new helpers to work with symlinks
-
-    (cherry picked from commit 4932766d8cc77430283f708385eab45cc13bbc6a)
 
  src/libmbim-glib/mbim-utils.c | 44
  ++++++++++++++++++++++++++++++++++++++++++-
  src/libmbim-glib/mbim-utils.h |  8 ++++++--
  2 files changed, 49 insertions(+), 3 deletions(-)
 
-commit e0103fb8856e8657a9ea2635b5828863a851e7b3
-Author: Aleksander Morgado <aleksander@aleksander.es>
-Date:   Fri Sep 6 14:27:23 2019 +0200
+commit 2999e9a8629938b9666f8d71eebc79a8670f5da0
+Author: Eric Caruso <ejcaruso@chromium.org>
+Date:   Thu Sep 12 15:52:52 2019 -0700
 
-    build: post-release version bump to 1.20.1
+    mbimcli: add --query-provisioned-contexts flag
+
+    This allows a user to check the provisioned contexts from the
+    CLI to see if e.g. the network wants to set up a connection using
+    a class 3 APN.
+
+    BUG=b:133125116
+    TEST=run on sarien
+
+    Change-Id: Ida30061c336b2a504fbdfb2118c7a165c1ad0ce8
+
+ src/mbimcli/mbimcli-basic-connect.c | 85
+ ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 84 insertions(+), 1 deletion(-)
+
+commit 399dcf407bc3f8385aae77e49a71591ba1a351bd
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Fri Sep 6 14:26:42 2019 +0200
+
+    build: post-release version bump to 1.21.0
 
  configure.ac | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
