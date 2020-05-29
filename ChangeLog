@@ -1,3 +1,437 @@
+commit 47e2ed70db68f655710a558e03bc0d77e3be96d4
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed May 27 14:02:03 2020 +0200
+
+    build: bump version to 1.23.900 (1.24-rc1)
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit f9bb4d26175512cc2b3084189fc9826a78fbd43d
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed May 27 14:01:20 2020 +0200
+
+    NEWS: update for 1.24
+
+ NEWS | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+commit 3757cf5a1946613d3b11fa6af6f262097967759a
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed May 27 13:49:04 2020 +0200
+
+    libmbim-glib: skip unneeded methods from introspection
+
+    Don't add in introspection the methods reading GObject properties.
+
+ src/libmbim-glib/mbim-device.h | 4 ++--
+ src/libmbim-glib/mbim-proxy.h  | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+commit 368450ecec0cce1abca098995428733d6db38b88
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed May 27 13:45:15 2020 +0200
+
+    mbim-codegen: setup introspection annotations in message creators
+
+ build-aux/mbim-codegen/Message.py | 34 +++++++++++++++++-----------------
+ 1 file changed, 17 insertions(+), 17 deletions(-)
+
+commit aedc73750a10f3bb18a72e0a9bb63863a6390c34
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed May 27 10:50:41 2020 +0200
+
+    examples: new simple python tester for introspection support
+
+ Makefile.am                                        |   2 +-
+ configure.ac                                       |   2 +
+ examples/Makefile.am                               |   1 +
+ examples/simple-tester-python/Makefile.am          |   2 +
+ examples/simple-tester-python/README               |  29 ++++++
+ examples/simple-tester-python/simple-tester-python | 102
+ +++++++++++++++++++++
+ 6 files changed, 137 insertions(+), 1 deletion(-)
+
+commit 8612624c1d674f9f23cd4b442060dce1d4d34873
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed May 27 11:56:05 2020 +0200
+
+    mbim-codegen: set array detail annotations
+
+ build-aux/mbim-codegen/Message.py | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+commit b1d92278f9689547894d0aa28228b53636f3c47c
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed May 27 11:00:17 2020 +0200
+
+    mbim-codegen: set transfer annotations in parsers
+
+ build-aux/mbim-codegen/Message.py | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
+
+commit 539e570b161c7127c3a267493cf760cd41ec586c
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed May 27 10:51:06 2020 +0200
+
+    mbim-codegen: explicitly flag as optional outputs all fields in
+    parsers
+
+ build-aux/mbim-codegen/Message.py | 34 +++++++++++++++++-----------------
+ 1 file changed, 17 insertions(+), 17 deletions(-)
+
+commit 891ff842fdb84a2f8628a19af89794a9c4287623
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon May 18 13:32:50 2020 +0200
+
+    mbim-codegen: avoid needing python packaging.version.parse
+
+ build-aux/mbim-codegen/Struct.py |  4 +---
+ build-aux/mbim-codegen/utils.py  | 21 +++++++++++++++++++++
+ 2 files changed, 22 insertions(+), 3 deletions(-)
+
+commit fc550c38e88f6228a492546f1d75edb98846a194
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon May 18 06:42:26 2020 +0200
+
+    docs,libmbim-glib: include API indices
+
+ docs/reference/libmbim-glib/libmbim-glib-docs.xml | 50
+ +++++++++++++++++++++--
+ 1 file changed, 47 insertions(+), 3 deletions(-)
+
+commit 03f4969bc7d79e1d6aa78af2fa69d6ff1de815ca
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon May 18 13:07:59 2020 +0200
+
+    build-aux: include Since tag in methods built from enums
+
+ build-aux/templates/mbim-enum-types-template.c |  17 ----
+ build-aux/templates/mbim-enum-types-template.h |  21 +++++
+ src/libmbim-glib/mbim-cid.h                    |  28 +++----
+ src/libmbim-glib/mbim-device.h                 |   2 +-
+ src/libmbim-glib/mbim-enums.h                  | 112
+ ++++++++++++-------------
+ src/libmbim-glib/mbim-errors.h                 |   6 +-
+ src/libmbim-glib/mbim-message.h                |   4 +-
+ src/libmbim-glib/mbim-uuid.h                   |   4 +-
+ 8 files changed, 99 insertions(+), 95 deletions(-)
+
+commit 0237c972093c716eeab82a94272cd0ae8a00426f
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon May 18 12:54:20 2020 +0200
+
+    build-aux: import custom mkenums tool
+
+    Equivalent to the glib-mkenums released in 2.66, we just include it in
+    the repo to be able to use it earlier than requiring 2.66 in the whole
+    project.
+
+ build-aux/Makefile.am                  |   4 +-
+ build-aux/mbim-mkenums                 | 788
+ +++++++++++++++++++++++++++++++++
+ configure.ac                           |   3 -
+ src/libmbim-glib/generated/Makefile.am |  10 +-
+ 4 files changed, 796 insertions(+), 9 deletions(-)
+
+commit 4c2a7b4f8285dfbf7ff3c45c142c454f5f5530b9
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon May 18 09:10:36 2020 +0200
+
+    libmbim-glib: add Since tags to all API types and methods
+
+ src/libmbim-glib/mbim-cid.h        |  40 +++++++-
+ src/libmbim-glib/mbim-compat.h     |  12 ++-
+ src/libmbim-glib/mbim-device.c     |  21 ++++
+ src/libmbim-glib/mbim-device.h     |  92 +++++++++++++++++-
+ src/libmbim-glib/mbim-enums.h      | 194
+ +++++++++++++++++++++++++++++--------
+ src/libmbim-glib/mbim-errors.h     |  10 +-
+ src/libmbim-glib/mbim-message.h    |  92 ++++++++++++++++++
+ src/libmbim-glib/mbim-proxy.c      |  11 ++-
+ src/libmbim-glib/mbim-proxy.h      |  40 +++++++-
+ src/libmbim-glib/mbim-utils.h      |   4 +
+ src/libmbim-glib/mbim-uuid.h       |  72 ++++++++++++--
+ src/libmbim-glib/mbim-version.h.in |   8 ++
+ 12 files changed, 536 insertions(+), 60 deletions(-)
+
+commit 8abe015a9ab756b2248df892a6b601d17e1a6611
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon May 18 07:05:16 2020 +0200
+
+    mbim-codegen: add Since tags to all public structs and methods
+
+ build-aux/mbim-codegen/Message.py | 236
+ +++++++++++++++++++++-----------------
+ build-aux/mbim-codegen/Struct.py  |  46 +++++---
+ 2 files changed, 159 insertions(+), 123 deletions(-)
+
+commit e20be27adea9fbc0ebcca4fe74e4d872fea75bad
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon May 18 06:15:27 2020 +0200
+
+    data: add 'since' version tags to all messages
+
+    E.g.:
+      "since" : "1.0"
+
+    Or per-message-type version tags with 'since-ex', e.g.:
+      "since-ex" : { "query"        : "1.0",
+                     "response"     : "1.0",
+                     "notification" : "1.8" },
+
+ data/mbim-service-atds.json                        |   6 +
+ data/mbim-service-auth.json                        |   9 +-
+ data/mbim-service-basic-connect.json               | 163 ++++++----
+ data/mbim-service-dss.json                         |   1 +
+ data/mbim-service-intel-firmware-update.json       |   9 +-
+ data/mbim-service-ms-basic-connect-extensions.json |   6 +
+ data/mbim-service-ms-firmware-id.json              |   1 +
+ data/mbim-service-ms-host-shutdown.json            |   1 +
+ data/mbim-service-phonebook.json                   |  73 ++---
+ data/mbim-service-proxy-control.json               |   1 +
+ data/mbim-service-qmi.json                         |  35 ++-
+ data/mbim-service-sms.json                         | 347
+ +++++++++++----------
+ data/mbim-service-stk.json                         |   4 +-
+ data/mbim-service-ussd.json                        |  69 ++--
+ 14 files changed, 402 insertions(+), 323 deletions(-)
+
+commit 21f8b992e8d17c9fa944641c0e4e1c02a756c5a9
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Thu May 14 19:24:41 2020 +0200
+
+    libmbim-glib,proxy: fix proxy reference count
+
+    Fixes bf9a52868047c11463692a57fdda6af9f0b59588
+
+ src/libmbim-glib/mbim-proxy.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 91d107fd4f052da5728656a45261aedde77de95e
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed May 13 07:00:46 2020 +0200
+
+    build: update list of ignored files
+
+ .gitignore | 47 ++++++++++++++++++-----------------------------
+ 1 file changed, 18 insertions(+), 29 deletions(-)
+
+commit c26e9494166ba45a36db65dc89362e2fed861136
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed May 13 06:02:10 2020 +0200
+
+    libmbim-glib,introspection: add introspection support
+
+ .gitlab-ci.yml               |  4 +-
+ configure.ac                 | 26 +++++++-----
+ m4/introspection.m4          | 97
+ ++++++++++++++++++++++++++++++++++++++++++++
+ src/libmbim-glib/Makefile.am | 40 ++++++++++++++++++
+ 4 files changed, 154 insertions(+), 13 deletions(-)
+
+commit 0bf83040b3addca4dce3fea17f15292f33fbb403
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed May 13 06:55:54 2020 +0200
+
+    libmbim-glib: move method docs to headers
+
+ src/libmbim-glib/mbim-cid.c     |  45 ----
+ src/libmbim-glib/mbim-cid.h     |  61 ++++-
+ src/libmbim-glib/mbim-compat.c  |  33 ---
+ src/libmbim-glib/mbim-compat.h  |  33 +++
+ src/libmbim-glib/mbim-device.c  | 187 --------------
+ src/libmbim-glib/mbim-device.h  | 294 ++++++++++++++++++----
+ src/libmbim-glib/mbim-message.c | 373 ----------------------------
+ src/libmbim-glib/mbim-message.h | 524
+ +++++++++++++++++++++++++++++++++++-----
+ src/libmbim-glib/mbim-proxy.c   |  16 --
+ src/libmbim-glib/mbim-proxy.h   |  54 ++++-
+ src/libmbim-glib/mbim-utils.c   |  13 -
+ src/libmbim-glib/mbim-utils.h   |  17 +-
+ src/libmbim-glib/mbim-uuid.c    | 109 ---------
+ src/libmbim-glib/mbim-uuid.h    | 134 +++++++++-
+ 14 files changed, 984 insertions(+), 909 deletions(-)
+
+commit f3f906bd4bcceac34a9e69accd819bb88fb68edf
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon May 11 17:13:29 2020 +0200
+
+    ci: also test distcheck by default
+
+ .gitlab-ci.yml | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+commit bf9a52868047c11463692a57fdda6af9f0b59588
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon May 11 16:58:37 2020 +0200
+
+    libmbim-glib,proxy: port to use g_auto() helpers
+
+ src/libmbim-glib/mbim-proxy.c | 164
+ +++++++++++++++++-------------------------
+ 1 file changed, 64 insertions(+), 100 deletions(-)
+
+commit 9e31bd6f3b4f2063b0b0d2ea78b1846e65e0ca3a
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon May 11 16:39:47 2020 +0200
+
+    libmbim-glib,message: port to use g_auto() helpers
+
+ src/libmbim-glib/mbim-message.c | 65
+ +++++++++++++++++------------------------
+ 1 file changed, 27 insertions(+), 38 deletions(-)
+
+commit a4c7b1a17f7267a1146d33e39b41f70f7e110062
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon May 11 16:31:04 2020 +0200
+
+    libmbim-glib,device: port to use g_auto() helpers
+
+ src/libmbim-glib/mbim-device.c | 302
+ ++++++++++++++++-------------------------
+ 1 file changed, 117 insertions(+), 185 deletions(-)
+
+commit 1e4654e2b326cfc98d20b3171bc54d2654bb9b23
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon May 11 16:02:03 2020 +0200
+
+    libmbim-glib,device: proxy_control_configuration_set_new() never fails
+
+ src/libmbim-glib/mbim-device.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+commit 073df58b71ac4edacddd18e4e822eae4cab0e59a
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon May 11 14:54:17 2020 +0200
+
+    mbim-codegen: port to use g_auto() helpers
+
+ build-aux/mbim-codegen/Message.py | 57
+ ++++++++++++++-------------------------
+ build-aux/mbim-codegen/Struct.py  |  8 +++---
+ 2 files changed, 23 insertions(+), 42 deletions(-)
+
+commit f8856c71607a0d2612cb5e9b050efd01f8c6e9d4
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon May 11 14:46:20 2020 +0200
+
+    mbim-proxy: port to use g_auto() helpers
+
+ src/mbim-proxy/mbim-proxy.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+
+commit 00dcb26cd6993104cb2d255487df7e9d754d0e94
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon May 11 14:38:31 2020 +0200
+
+    mbimcli: port to use g_auto() helpers
+
+ src/mbimcli/mbimcli-atds.c                        |  50 +-
+ src/mbimcli/mbimcli-basic-connect.c               | 735
+ +++++++---------------
+ src/mbimcli/mbimcli-dss.c                         |  61 +-
+ src/mbimcli/mbimcli-helpers.c                     | 130 ++--
+ src/mbimcli/mbimcli-intel-firmware-update.c       |  15 +-
+ src/mbimcli/mbimcli-ms-basic-connect-extensions.c |  79 +--
+ src/mbimcli/mbimcli-ms-firmware-id.c              |  25 +-
+ src/mbimcli/mbimcli-ms-host-shutdown.c            |  13 +-
+ src/mbimcli/mbimcli-phonebook.c                   |  89 +--
+ src/mbimcli/mbimcli.c                             |  16 +-
+ 10 files changed, 400 insertions(+), 813 deletions(-)
+
+commit 7ae92677360a57e796d10c982a0d4d125ae86731
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon May 11 16:33:02 2020 +0200
+
+    build: bump version to 1.23.1 to flag existence of new API (autoptr
+    support)
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 50d43376a6ac9c6fc9a1e3d595675937ae90cc86
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sat Mar 21 15:19:58 2020 +0100
+
+    mbimcli: remove empty whiteline in --version
+
+    This also fixes the Copyright section in the troffit generated HTML
+    output.
+
+ src/mbimcli/mbimcli.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+commit adaeaa6ad14854655b092bdaf7e7b02f7d616ccd
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sat Mar 21 15:09:00 2020 +0100
+
+    mbimcli: add ':' to the section titles
+
+    So that --help-all print all sections in the same way as the Help and
+    Application option groups.
+
+ src/mbimcli/mbimcli-atds.c                        | 2 +-
+ src/mbimcli/mbimcli-basic-connect.c               | 2 +-
+ src/mbimcli/mbimcli-dss.c                         | 2 +-
+ src/mbimcli/mbimcli-intel-firmware-update.c       | 2 +-
+ src/mbimcli/mbimcli-ms-basic-connect-extensions.c | 2 +-
+ src/mbimcli/mbimcli-ms-firmware-id.c              | 2 +-
+ src/mbimcli/mbimcli-ms-host-shutdown.c            | 2 +-
+ src/mbimcli/mbimcli-phonebook.c                   | 2 +-
+ 8 files changed, 8 insertions(+), 8 deletions(-)
+
+commit 4f67acb16e0dbafad78387090b8c086c2428f663
+Author: Eric Caruso <ejcaruso@chromium.org>
+Date:   Tue Feb 4 11:04:14 2020 -0800
+
+    mbim-proxy: flag print_version_and_exit() as noreturn
+
+ src/mbim-proxy/mbim-proxy.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit cc307468d078a28ea99660b33d740f563484d910
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Jan 15 18:35:45 2020 +0100
+
+    libmbim-glib,test: port message parser tests to use autoptr
+
+ src/libmbim-glib/test/test-message-parser.c | 224
+ +++++++++++-----------------
+ 1 file changed, 90 insertions(+), 134 deletions(-)
+
+commit 7100b28963a34581ff44a7b43626ef81cd7c87e8
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Jan 15 18:09:32 2020 +0100
+
+    libmbim-glib,mbim-codegen: define autoptr cleanup functions for
+    all types
+
+ build-aux/mbim-codegen/Message.py |  8 ++++----
+ build-aux/mbim-codegen/Struct.py  | 21 ++++++++++++++++-----
+ src/libmbim-glib/mbim-device.h    |  1 +
+ src/libmbim-glib/mbim-message.h   |  2 ++
+ src/libmbim-glib/mbim-proxy.h     |  1 +
+ 5 files changed, 24 insertions(+), 9 deletions(-)
+
+commit 8819bb94affc97455f1716c71b10ca5a4a574879
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Jan 15 17:37:22 2020 +0100
+
+    build: bump minimum glib required version to 2.48
+
+ configure.ac | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit f6506bccdfc43c3c89eaf928cf4576963fdacf32
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Jan 15 17:33:21 2020 +0100
+
+    build: post-release version bump to 1.23.0
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 commit 697465da7e976d15b13061368d37f76d8e0c33c4
 Author: Aleksander Morgado <aleksander@aleksander.es>
 Date:   Wed Jan 15 16:09:39 2020 +0100
