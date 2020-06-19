@@ -1,3 +1,57 @@
+commit 1a186e61a34e0b267cc91e9a72dd266429ab6408
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Thu Jun 18 10:40:31 2020 +0200
+
+    release: bump version to 1.24.0
+
+ configure.ac | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+commit 53dd98b856711845af761d2bab2779e85aa45520
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sat May 30 13:11:49 2020 +0200
+
+    AUTHORS: update with latest commit stats
+
+ AUTHORS | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit 30dd906a658bbd182c252f046c76697218d1da8b
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sat May 30 08:59:15 2020 +0200
+
+    example: always perform a clean exit, even on error
+
+ examples/simple-tester-python/simple-tester-python | 2 --
+ 1 file changed, 2 deletions(-)
+
+commit ede2849ce88e951ab1b07a6d80406e571b6d21aa
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sat May 30 08:56:04 2020 +0200
+
+    example: GObject import not explicitly required
+
+ examples/simple-tester-python/simple-tester-python | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 2f8c625da4b8b9faad0b9120aa1613ae53b47661
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Fri May 29 18:30:21 2020 +0200
+
+    example: separate with 2 whitelines the program methods
+
+ examples/simple-tester-python/simple-tester-python | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+commit 3564fde972c3e39aeccd589ed4919aa058dd23ca
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Fri May 29 18:16:34 2020 +0200
+
+    example: don't attempt to continue logic after quitting main loop
+
+ examples/simple-tester-python/simple-tester-python | 3 +++
+ 1 file changed, 3 insertions(+)
+
 commit 47e2ed70db68f655710a558e03bc0d77e3be96d4
 Author: Aleksander Morgado <aleksander@aleksander.es>
 Date:   Wed May 27 14:02:03 2020 +0200
