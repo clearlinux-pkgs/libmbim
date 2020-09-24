@@ -4,7 +4,7 @@
 #
 Name     : libmbim
 Version  : 1.24.2
-Release  : 14
+Release  : 15
 URL      : https://www.freedesktop.org/software/libmbim/libmbim-1.24.2.tar.xz
 Source0  : https://www.freedesktop.org/software/libmbim/libmbim-1.24.2.tar.xz
 Summary  : Library to communicate with MBIM-powered modems
