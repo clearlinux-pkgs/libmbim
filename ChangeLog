@@ -1,3 +1,293 @@
+commit 060584b1d79bd11c9059676c24cd1d882d5508b1
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Thu Oct 1 12:07:10 2020 +0200
+
+    release: bump version to 1.24.4
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 098f44149543919b96a59733c704dd6c36d2843d
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Thu Oct 1 12:06:48 2020 +0200
+
+    NEWS: update for 1.24.4
+
+ NEWS | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
+
+commit 2f870ec400c4c12513d809eccde1da34e80f7d9f
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Thu Oct 1 12:01:28 2020 +0200
+
+    libmbim-glib,device: get_transaction_id() already in 1.24.4
+
+ docs/reference/libmbim-glib/libmbim-glib-docs.xml | 6 +++---
+ src/libmbim-glib/mbim-device.h                    | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+commit 34a2a36759aeac830e87964ea9d171b8d64c9a6c
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Thu Oct 1 12:11:58 2020 +0200
+
+    docs: add missing references to mbim_device_get_transaction_id()
+
+    (cherry picked from commit 34ce4755f8e926f7c9fa20b777e8cd7aa1720dae)
+
+ docs/reference/libmbim-glib/libmbim-glib-common.sections | 1 +
+ docs/reference/libmbim-glib/libmbim-glib-docs.xml        | 4 ++++
+ 2 files changed, 5 insertions(+)
+
+commit a1ef28c59cb48b3bf36d17c3f2328d55d5e7f546
+Author: Bjørn Mork <bjorn@mork.no>
+Date:   Mon Sep 21 13:08:38 2020 +0200
+
+    libmbim-glib,proxy: use same transaction id for all fragments
+
+    All fragments must have the same transaction id.
+
+    Signed-off-by: Bjørn Mork <bjorn@mork.no>
+    (cherry picked from commit e266810e03712ac79b0bf4682c92a4834e216b9b)
+
+ src/libmbim-glib/mbim-device.c | 10 ++++++++++
+ src/libmbim-glib/mbim-device.h | 13 +++++++++++++
+ src/libmbim-glib/mbim-proxy.c  |  8 ++++++--
+ 3 files changed, 29 insertions(+), 2 deletions(-)
+
+commit fc0c04f0c0423e21d2f48fd579d96b251f64c882
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sun Aug 9 09:42:40 2020 +0200
+
+    libmbim-glib,proxy: don't acquire device context during untrack
+
+    Because if the context was never created, we would be creating it at
+    this point, and it wouldn't make sense to do so; e.g.:
+
+      [Debug] [/dev/cdc-wdm1] unexpected port hangup!
+      [Debug] [/dev/cdc-wdm1] channel destroyed
+      [Debug] Initial device subscribe list...
+      [Debug] [service 0] a289cc33-bcbb-8b4f-b6b0-133ec2aae6df
+      (basic-connect)
+      [Debug] [service 0] 11 CIDs enabled
+      [Debug] [service 0] [cid 0] 2 (subscriber-ready-status)
+      [Debug] [service 0] [cid 1] 3 (radio-state)
+
+    (cherry picked from commit 927706715bd91cc5cd681f29a6c643dc7d16047c)
+
+ src/libmbim-glib/mbim-proxy.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
+
+commit f345dbfff5a046e1bd0771bee631506c598f92a3
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sun Aug 9 10:16:54 2020 +0200
+
+    mbimcli: add missing EOL in error print when closing device
+
+        [09 ago 2020, 10:15:51] [Debug] [/dev/cdc-wdm1] Received message
+        (translated)...
+        >>>>>> Header:
+        >>>>>>   length      = 16
+        >>>>>>   type        = function-error (0x80000004)
+        >>>>>>   transaction = 11
+        >>>>>> Contents:
+        >>>>>>   error = 'NotOpened' (0x00000005)
+
+        error: couldn't close device: MBIM protocol error: NotOpened[09
+        ago 2020, 10:15:51] [Debug] [/dev/cdc-wdm1] channel destroyed
+
+    (cherry picked from commit 21f797058c07139e128e0b10850e921a2e982ad0)
+
+ src/mbimcli/mbimcli.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit e35c747d937c033fa2cc3d5d1f1a83d062d5a4db
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sun Aug 9 08:48:52 2020 +0200
+
+    libmbim-glib,proxy: avoid double GError free
+
+    (cherry picked from commit 095cd71491adeab32bdc00cc247487327114e1d0)
+
+ src/libmbim-glib/mbim-proxy.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 04439045b6ec86b3978b966eb8468455b3dee2ac
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Fri Jul 10 10:37:54 2020 +0200
+
+    build: post-release version bump to 1.24.3
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 603dc8027afe319c858763d7885dd8b7395c9f42
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Fri Jul 10 10:32:45 2020 +0200
+
+    release: bump version to 1.24.2
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit fdb0887f386b55e6a7222039a1404150578a0c0b
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Fri Jul 10 10:32:31 2020 +0200
+
+    NEWS: update for 1.24.2
+
+ NEWS | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+commit 4712154279402356a8d51c90f42742e3b642f6d2
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Fri Jul 10 10:17:01 2020 +0200
+
+    libmbim-glib,proxy: fix reporting of merged subscribe list
+
+    We were doing the subscribe list merge correctly, but not reporting it
+    as done because the 'updated' pointer is set to NULL before returning
+    it.
+
+    This was breaking QMI over MBIM indications, as the registration
+    message to request them was never sent to the device.
+
+    (cherry picked from commit ecd188ff0126866199fd453e962ba54ba1dce290)
+
+ src/libmbim-glib/mbim-proxy.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit e9087a9c567250a8c88e3e5d5c8a33adaf32e357
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sun Jun 28 09:08:54 2020 +0200
+
+    libmbim-glib,proxy: fix segfault when printing updated subscriber list
+
+    We were printing the 'updated' variable after its contents had already
+    been stolen.
+
+        [28 Jun 2020, 03:06:27] [Debug] Merged service subscribe list
+        built for device '/dev/cdc-wdm0'
+        Thread 1 "mbim-proxy" received signal SIGSEGV, Segmentation fault.
+        _mbim_proxy_helper_service_subscribe_list_debug
+        (list=list@entry=0x0, list_size=6) at mbim-proxy-helpers.c:104
+        104         const MbimEventEntry *entry = list[i];
+        (gdb) p list
+        $1 = (const MbimEventEntry * const *) 0x0
+        (gdb) p list_size
+        $2 = 6
+
+    The segfault was only triggered when the mbim-proxy was run with
+    --verbose.
+
+    (cherry picked from commit 0590b7e911df6e014fa6a7ec48a291f33a53d580)
+
+ src/libmbim-glib/mbim-proxy.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit 03bbe9042a9fae00a489564cbe979733df11b4b1
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Jun 23 10:44:36 2020 +0200
+
+    libmbim-glib,device: ignore messages with wrong MBIM message type
+
+    The Cinterion mPLS62-w may end up sending messages which are clearly
+    not well formatted MBIM messages, and upon receiving one of them, the
+    mbim-proxy would get completely stuck (e.g. attempting to read a
+    message of >800MB because of the reported length in the first
+    malformed messae).
+
+    Try to avoid this, by doing an initial filter by message type, which
+    at least solves the seen problem. Not a fully robust fix yet, though.
+
+    E.g. new logs:
+
+        [23 jun 2020, 10:43:49] [Debug] [/dev/cdc-wdm1] Sent message
+        (translated)...
+        <<<<<< Header:
+        <<<<<<   length      = 48
+        <<<<<<   type        = command (0x00000003)
+        <<<<<<   transaction = 20
+        <<<<<< Fragment header:
+        <<<<<<   total   = 1
+        <<<<<<   current = 0
+        <<<<<< Contents:
+        <<<<<<   service = 'atds' (5967bdcc-7fd2-49a2-9f5c-b2e70e527db3)
+        <<<<<<   cid     = 'location' (0x00000002)
+        <<<<<<   type    = 'query' (0x00000000)
+
+        [23 jun 2020, 10:43:49] -Warning ** [/dev/cdc-wdm1] discarding
+        293 bytes in MBIM stream as message type validation fails
+        [23 jun 2020, 10:43:49] -Warning ** [/dev/cdc-wdm1] discarding
+        200 bytes in MBIM stream as message type validation fails
+        [23 jun 2020, 10:43:49] -Warning ** [/dev/cdc-wdm1] discarding
+        168 bytes in MBIM stream as message type validation fails
+        [23 jun 2020, 10:43:49] -Warning ** [/dev/cdc-wdm1] discarding
+        311 bytes in MBIM stream as message type validation fails
+        [23 jun 2020, 10:43:49] -Warning ** [/dev/cdc-wdm1] discarding
+        311 bytes in MBIM stream as message type validation fails
+        [23 jun 2020, 10:43:49] -Warning ** [/dev/cdc-wdm1] discarding
+        311 bytes in MBIM stream as message type validation fails
+        [23 jun 2020, 10:43:49] -Warning ** [/dev/cdc-wdm1] discarding
+        335 bytes in MBIM stream as message type validation fails
+        [23 jun 2020, 10:43:49] -Warning ** [/dev/cdc-wdm1] discarding
+        277 bytes in MBIM stream as message type validation fails
+        [23 jun 2020, 10:43:49] -Warning ** [/dev/cdc-wdm1] discarding
+        312 bytes in MBIM stream as message type validation fails
+        [23 jun 2020, 10:43:49] -Warning ** [/dev/cdc-wdm1] discarding
+        314 bytes in MBIM stream as message type validation fails
+        [23 jun 2020, 10:43:49] -Warning ** [/dev/cdc-wdm1] discarding
+        312 bytes in MBIM stream as message type validation fails
+        [23 jun 2020, 10:43:49] -Warning ** [/dev/cdc-wdm1] discarding
+        280 bytes in MBIM stream as message type validation fails
+        [23 jun 2020, 10:43:49] -Warning ** [/dev/cdc-wdm1] discarding
+        312 bytes in MBIM stream as message type validation fails
+        [23 jun 2020, 10:43:49] -Warning ** [/dev/cdc-wdm1] discarding
+        312 bytes in MBIM stream as message type validation fails
+        [23 jun 2020, 10:43:49] -Warning ** [/dev/cdc-wdm1] discarding
+        326 bytes in MBIM stream as message type validation fails
+        [23 jun 2020, 10:43:49] -Warning ** [/dev/cdc-wdm1] discarding
+        260 bytes in MBIM stream as message type validation fails
+        [23 jun 2020, 10:43:49] -Warning ** [/dev/cdc-wdm1] discarding
+        244 bytes in MBIM stream as message type validation fails
+        [23 jun 2020, 10:43:49] -Warning ** [/dev/cdc-wdm1] discarding
+        326 bytes in MBIM stream as message type validation fails
+        [23 jun 2020, 10:43:49] -Warning ** [/dev/cdc-wdm1] discarding
+        326 bytes in MBIM stream as message type validation fails
+        [23 jun 2020, 10:43:49] -Warning ** [/dev/cdc-wdm1] discarding
+        326 bytes in MBIM stream as message type validation fails
+        [23 jun 2020, 10:43:49] -Warning ** [/dev/cdc-wdm1] discarding
+        306 bytes in MBIM stream as message type validation fails
+        [23 jun 2020, 10:43:49] -Warning ** [/dev/cdc-wdm1] discarding
+        334 bytes in MBIM stream as message type validation fails
+        [23 jun 2020, 10:43:49] -Warning ** [/dev/cdc-wdm1] discarding
+        324 bytes in MBIM stream as message type validation fails
+        [23 jun 2020, 10:43:49] -Warning ** [/dev/cdc-wdm1] discarding
+        356 bytes in MBIM stream as message type validation fails
+        [23 jun 2020, 10:43:49] -Warning ** [/dev/cdc-wdm1] discarding
+        356 bytes in MBIM stream as message type validation fails
+        [23 jun 2020, 10:43:49] -Warning ** [/dev/cdc-wdm1] discarding
+        191 bytes in MBIM stream as message type validation fails
+        [23 jun 2020, 10:43:49] -Warning ** [/dev/cdc-wdm1] discarding
+        201 bytes in MBIM stream as message type validation fails
+        [23 jun 2020, 10:43:49] -Warning ** [/dev/cdc-wdm1] discarding
+        356 bytes in MBIM stream as message type validation fails
+        [23 jun 2020, 10:43:49] -Warning ** [/dev/cdc-wdm1] discarding
+        356 bytes in MBIM stream as message type validation fails
+
+    (cherry picked from commit cbb3e3944452a940ba583020882d13f2e49acd27)
+
+ src/libmbim-glib/mbim-device.c | 29 ++++++++++++++++++++++++++++-
+ 1 file changed, 28 insertions(+), 1 deletion(-)
+
+commit 3c5b085e7f0f7c2ac3dd6f145e64cde354883ccb
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Thu Jun 18 10:53:24 2020 +0200
+
+    build: post-release version bump to 1.24.1
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 commit 1a186e61a34e0b267cc91e9a72dd266429ab6408
 Author: Aleksander Morgado <aleksander@aleksander.es>
 Date:   Thu Jun 18 10:40:31 2020 +0200
