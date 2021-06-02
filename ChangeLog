@@ -1,3 +1,150 @@
+commit a183b73c49729addad059e90b5dcdad7aa5ba54d
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Jun 2 13:05:53 2021 +0200
+
+    release: bump version to 1.24.8
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 0969ccbd449cf060ac9860cfbeed4caa251ecb31
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed May 26 15:09:29 2021 +0200
+
+    NEWS: update for 1.24.8
+
+ NEWS | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+commit 02f4e2289e3a6ab0983d880d52f1ffb4bdf727cd
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Apr 21 11:33:53 2021 +0200
+
+    build: disable gtkdocize in autoreconf
+
+    We have a custom modified gtk-doc.make file in our sources, which
+    disables the gtkdoc-rebase on local install step, so we don't want
+    autoreconf to copy a different one when we're bootstrapping.
+
+    (cherry picked from commit 6394a122407f31d2321a16833d9dd123767ff8d5)
+
+ autogen.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit e772a8103acd3ead338903307a036b63f2f63a51
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue May 18 11:09:54 2021 +0200
+
+    core: drop "volatile" for g_once_init_enter locations
+
+    This fixes a few (fatal in gcc 11) warnings.
+
+    See https://gitlab.gnome.org/GNOME/glib/-/issues/600
+
+    (cherry picked from commit 764d91155570d653e178ae8f12ff4de00d71e06c)
+
+ build-aux/templates/mbim-enum-types-template.c  | 8 ++++----
+ build-aux/templates/mbim-error-types-template.c | 8 ++++----
+ src/libmbim-glib/mbim-message.c                 | 8 ++++----
+ 3 files changed, 12 insertions(+), 12 deletions(-)
+
+commit 0e39fe0d85fec302d620365a04d98c974d7659ce
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sat May 15 15:29:32 2021 +0200
+
+    libmbim-glib,message: fix overflows when checking required size
+
+    The message parsers will make sure the amount of data read from the
+    message is within the boundaries of the message itself. But, while
+    doing so, the parser will "compute" the required size based on message
+    field offsets and also based on offsets and sizes reported within the
+    message itself.
+
+    If these fields are malformed and report very long offsets or
+    sizes (e.g. 0xFFFFFFFF), adding those values into a target uint32
+    value will definitely overflow.
+
+    Fix this by making the required size computations using a target
+    uint64 value instead, so that adding up several uint32 values (even if
+    some of them are e.g. 0xFFFFFFFF) won't overflow the operation.
+
+    Fixes
+    https://gitlab.freedesktop.org/mobile-broadband/libmbim/-/issues/16
+
+    (cherry picked from commit 9016e0d72d5c7da68eccdc8413e82240a27bfeef)
+
+ src/libmbim-glib/mbim-message.c | 160
+ ++++++++++++++++++++--------------------
+ 1 file changed, 80 insertions(+), 80 deletions(-)
+
+commit fd5aa84c5d92d94b9cc07350afc5e72a1f541347
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sat May 15 15:28:51 2021 +0200
+
+    libmbim-glib,message: trivial fix in guint64 value parsing
+
+    All relative offsets are 32bit values
+
+    (cherry picked from commit 7a86e782e0778c458990d8f506db94bb65e4b44b)
+
+ src/libmbim-glib/mbim-message-private.h | 2 +-
+ src/libmbim-glib/mbim-message.c         | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+commit 30bd7e3b28f25e65385b98c0114e5cc64e2de2b8
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sat May 15 15:23:09 2021 +0200
+
+    libmbim-glib,test: add test to trigger overflow in the message parser
+
+    The test includes a "Basic Connect" "Visible Providers" response
+    message that has both a string offset and size malformed (reported as
+    0x80000020 and 0x8000000A instead of 0x00000020 and 0x0000000A).
+
+    See
+    https://gitlab.freedesktop.org/mobile-broadband/libmbim/-/issues/16
+
+    (cherry picked from commit f574596f2c092b4f779fc3ec03fa0e852b12a104)
+
+ src/libmbim-glib/test/test-message-parser.c | 74
+ +++++++++++++++++++++++++++++
+ 1 file changed, 74 insertions(+)
+
+commit 019be52e10730860ea6fd3a20f3d41566756b169
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Fri Apr 30 21:53:26 2021 +0200
+
+    ci: build should be supported back to bionic
+
+    Also, include ninja and meson in the image template, to have it ready
+    by the time we add the meson support.
+
+    (cherry picked from commit 13883cd5c4d28dbed3c49008430c7dbbae8d5ef0)
+
+ .gitlab-ci.yml | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+commit 4589863478860cc25d77a8fad617a36793d5852b
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Apr 28 18:47:30 2021 +0200
+
+    ci: switch to gitlab templates
+
+    (cherry picked from commit 435649cbebd72aed8b128deabc8bd1405261ecfa)
+
+ .gitlab-ci.yml | 81
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 75 insertions(+), 6 deletions(-)
+
+commit 6453ef739bf6653e50fe4b8affdacfd341b3d683
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Fri Jan 22 10:20:01 2021 +0100
+
+    build: post-release version bump 1.24.7
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 commit 5bf12d88b5345f4b0bca7c1f55be36cd3cb2c6de
 Author: Aleksander Morgado <aleksander@aleksander.es>
 Date:   Fri Jan 22 10:11:48 2021 +0100
