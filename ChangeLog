@@ -1,3 +1,610 @@
+commit 55d51a8a76921b478a75b79a8695b37d989e4868
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon Nov 8 11:07:55 2021 +0100
+
+    release: bump version to 1.26.2
+
+ configure.ac | 2 +-
+ meson.build  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+commit 3fe14ffba7974d7b12b2881d6771aae2c0695a9d
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon Nov 8 11:06:50 2021 +0100
+
+    NEWS: update for 1.26.2
+
+ NEWS | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+
+commit b917d93708d1d5fed1959507853c77a2bd8b1c83
+Author: Iñigo Martínez <inigomartinez@gmail.com>
+Date:   Fri Nov 5 10:06:56 2021 +0100
+
+    build: Make feature options boolean
+
+    The introspection and man support are set as `feature` but this may
+    cause confusion.
+
+    They have been made `boolean`.
+
+    In order to always build man documentation, `help2man` is also
+    installed in the CI builds.
+
+    (cherry picked from commit 823372ac71fec186e95339179fa01816896bf2f4)
+
+ .gitlab-ci.yml       | 10 +++++-----
+ docs/man/meson.build |  2 ++
+ meson.build          | 18 +++++++++---------
+ meson_options.txt    |  4 ++--
+ 4 files changed, 18 insertions(+), 16 deletions(-)
+
+commit 5fe9d1ebcc7e0c260a8f7b0bb3c1eaf72b2c28d0
+Author: Nicolas Cavallari <nicolas.cavallari@green-communications.fr>
+Date:   Thu Oct 14 12:25:46 2021 +0200
+
+    meson.build: add an option to not build man pages.
+
+    When cross-compiling, the compiled binaries cannot be run on the build
+    machine, unless one defines a helper (e.g. qemu) in the meson
+    configuration, which is most of the time undesirable.
+
+    If help2man is installed on the build machine, then the build
+    would fail
+    because of this, so add an option to disable generating the man pages.
+
+    With later versions of meson, it will be possible to automatically
+    detect this condition.
+
+    (cherry picked from commit 792af73ea90e9689703ab526dd444fdb1c2f8e40)
+
+ meson.build       | 8 +++++++-
+ meson_options.txt | 1 +
+ 2 files changed, 8 insertions(+), 1 deletion(-)
+
+commit 20f05ebaf3fc1b71cb69a026a989f9d392ab7ed6
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 2 23:33:19 2021 +0100
+
+    docs: add API index for 1.26.2
+
+ docs/reference/libmbim-glib/libmbim-glib-docs.xml | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+commit 7a6f8ad2b01c6cf752e512bac7ed6fed21914999
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Nov 2 23:32:30 2021 +0100
+
+    libmbim-glib,quectel: 'radio state' command available since 1.26.2
+
+ data/mbim-service-quectel.json | 2 +-
+ src/libmbim-glib/mbim-cid.h    | 4 ++--
+ src/libmbim-glib/mbim-enums.h  | 4 ++--
+ src/libmbim-glib/mbim-uuid.h   | 4 ++--
+ 4 files changed, 7 insertions(+), 7 deletions(-)
+
+commit bcac7ac1fb8325989800c032b5a81bfa2947dbea
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sun Sep 19 14:44:12 2021 +0200
+
+    mbimcli: new '--quectel-query-radio-state' and
+    '--quectel-set-radio-state' operations
+
+    The '--quectel-set-radio-state' operation is limited to allow only one
+    value for now: 'on' (0x00000001), which is the one we've seen used
+    when reviewing traffic from Lenovo's FCC unlock tool.
+
+    (cherry picked from commit 038efc74690d90deb7bc61c887a2f2a067745bfb)
+
+ src/mbimcli/Makefile.am       |   1 +
+ src/mbimcli/mbimcli-quectel.c | 195
+ ++++++++++++++++++++++++++++++++++++++++++
+ src/mbimcli/mbimcli.c         |  10 ++-
+ src/mbimcli/mbimcli.h         |   4 +
+ src/mbimcli/meson.build       |   1 +
+ 5 files changed, 210 insertions(+), 1 deletion(-)
+
+commit 7c18ffe19cf7ee32cb63f373a194377e22a351af
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sun Sep 19 14:33:48 2021 +0200
+
+    libmbim-glib: new 'Quectel' service
+
+    For now defining a single command with the FCC unlock operation.
+
+    Based on the 'mbim2sar.so' library shipped with
+    https://snapcraft.io/lenovo-wwan-dpr
+
+    See
+    https://gitlab.freedesktop.org/mobile-broadband/ModemManager/-/issues/402#note_1064882
+
+    (cherry picked from commit f6043e003762a0ae24df5068ec68f14923c4a761)
+
+ data/Makefile.am                                      |  1 +
+ data/mbim-service-quectel.json                        | 19
+ +++++++++++++++++++
+ docs/reference/libmbim-glib/Makefile.am               |  5 +++--
+ .../libmbim-glib/libmbim-glib-common.sections         | 11 +++++++++++
+ docs/reference/libmbim-glib/libmbim-glib-docs.xml     |  5 +++++
+ src/libmbim-glib/generated/Makefile.am                | 12 ++++++++++++
+ src/libmbim-glib/generated/meson.build                |  1 +
+ src/libmbim-glib/libmbim-glib.h                       |  1 +
+ src/libmbim-glib/mbim-cid.c                           | 14 ++++++++++++++
+ src/libmbim-glib/mbim-cid.h                           | 14 ++++++++++++++
+ src/libmbim-glib/mbim-enums.h                         | 19
+ +++++++++++++++++++
+ src/libmbim-glib/mbim-message.c                       |  4 ++++
+ src/libmbim-glib/mbim-uuid.c                          | 13 +++++++++++++
+ src/libmbim-glib/mbim-uuid.h                          | 13 +++++++++++++
+ src/libmbim-glib/test/test-uuid.c                     |  8 ++++++++
+ src/mbimcli/mbimcli.c                                 |  1 +
+ 16 files changed, 139 insertions(+), 2 deletions(-)
+
+commit 611263e68f5ce754763a96f9f4c8d888e886536f
+Author: Iñigo Martínez <inigomartinez@gmail.com>
+Date:   Tue Oct 26 10:36:09 2021 +0200
+
+    build: Fix double quotes in rules file
+
+    `MBIM_USERNAME` is quoted twice in the
+    `76-mbim-proxy-device-ownership.rules` rules file. This is because
+    the definition is used in two files.
+
+    The first one is `config.h` file, that is used in source code files
+    and needs to be explicitly quoted. The second one is the rules file,
+    mentioned above that already has quotes in the template file.
+
+    The explicit quotes have been removed in the rules file generation.
+
+    Fixes #21
+
+    (cherry picked from commit f6fbc6c2df7cf1e83f06062bb157acbf9ec9ffd8)
+
+ src/mbim-proxy/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit cd7108e46148869c50ea63e800d63bd85f7202fa
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon Sep 13 12:17:07 2021 +0200
+
+    ci,meson: add uninstall check in the release task
+
+    (cherry picked from 73137ab786eb7f0cb090296e0c7b0b2fe27aa595)
+
+ .gitlab-ci.yml | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 11d7f47f760ad504e6ab4c19139424b3d04c1cb9
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon Sep 13 12:16:20 2021 +0200
+
+    ci,meson: add tests without introspection support
+
+    (cherry picked from 9e0a74de2811a94c9bc68f86d831ce62ed634c65)
+
+ .gitlab-ci.yml | 42 +++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 35 insertions(+), 7 deletions(-)
+
+commit 684c4b06cd032e5ac7ff1eca5d352de49a4d98f4
+Author: Iñigo Martínez <inigomartinez@gmail.com>
+Date:   Sat Sep 11 00:20:37 2021 +0200
+
+    build: Use the install_mode option
+
+    Since meson 0.47, `install_mode` option can be used to set a given
+    set of rights to any target.
+
+    This feature has been used to set `qmi-network` rights instead of
+    using a post install script.
+
+    [0]
+    https://mesonbuild.com/Release-notes-for-0-47-0.html#install_mode-keyword-argument-extended-to-all-installable-targets
+
+    (cherry picked from commit 35abb03daddc000cc8a3b35b9338dcdcf211273f)
+
+ meson_post_install.py | 3 ---
+ utils/meson.build     | 1 +
+ 2 files changed, 1 insertion(+), 3 deletions(-)
+
+commit d70c808704da8b3d7571612c9b015b28a8c1f3c1
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon Sep 13 11:50:08 2021 +0200
+
+    Revert "build: Use the install_mode option"
+
+    This reverts commit d783112c6a6e8f8c27b6c603c06ca3efb2089b33.
+
+    We shouldn't remove the 'meson_post_install.py' script because the
+    bash-completion setup still needs it, given that in the stable branch
+    we didn't rename the completion file.
+
+ meson.build           |  6 ++++++
+ meson_post_install.py | 20 ++++++++++++++++++++
+ utils/meson.build     |  1 -
+ 3 files changed, 26 insertions(+), 1 deletion(-)
+
+commit 5e5b2aa3b3a9606f2a54d9da38e671030fde73d2
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon Sep 13 09:53:22 2021 +0200
+
+    libmbim-glib,mbimcli: remove execution bit from mode in source files
+
+    (cherry picked from commit 5da217ac7a334364ad48bd357c02f302f2c70a1f)
+
+ src/libmbim-glib/mbim-enums.h                     | 0
+ src/mbimcli/mbimcli-ms-basic-connect-extensions.c | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 3b9562ac88ddb8cd134dae6cbab4c315ca854a18
+Author: Iñigo Martínez <inigomartinez@gmail.com>
+Date:   Sat Sep 11 01:09:45 2021 +0200
+
+    build: Add explicit content files to documentation
+
+    Although not totally necessary due to its implementation, some files
+    built by meson are included as content files.
+
+    They have been explicitly added for the sake of correctness.
+
+    (cherry picked from commit 231ade71dd0e3fb88ab7c8ffca6097400902d8f7)
+
+ docs/reference/libmbim-glib/meson.build | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 8eeaac7cd2f451ccecfc5e0c5ee387e0207c5913
+Author: Iñigo Martínez <inigomartinez@gmail.com>
+Date:   Sat Sep 11 00:27:26 2021 +0200
+
+    build: Remove unnecessary MALLOC_PERTURB_ variable set
+
+    meson's test function already sets the `MALLOC_PERTURB_` environment
+    variable[0], so there is no need to set it.
+
+    [0] https://mesonbuild.com/Reference-manual.html#test
+
+    (cherry picked from commit 433108b71220efd9a5abd3a7a1781879e3f68282)
+
+ src/libmbim-glib/test/meson.build | 3 ---
+ 1 file changed, 3 deletions(-)
+
+commit a5b842324d67a969d0009ef9dca5c306d1485d28
+Author: Iñigo Martínez <inigomartinez@gmail.com>
+Date:   Sat Sep 11 00:26:05 2021 +0200
+
+    build: Add version script linker flag when available
+
+    The version script linker flag is used even if it is not available.
+
+    This has been changed to check first for its availability.
+
+    (cherry picked from commit 531374db0054610bef0cab532a2d26540f573630)
+
+ src/libmbim-glib/meson.build | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit d0bfbbe4f1ec5dbfc23c376c55ac5a799dc54323
+Author: Iñigo Martínez <inigomartinez@gmail.com>
+Date:   Sat Sep 11 00:21:57 2021 +0200
+
+    build: Use install_dir instead of subdir
+
+    `install_header` allows the use of the `subdir` parameter that
+    points to the subdirectory in the `includedir` directory.
+
+    However, to maintain consistency, this has been changed to use the
+    `install_dir` parameter.
+
+    (cherry picked from commit 86a5dc797f8813b77c6f45cf90aed3fd03bbe78b)
+
+ src/libmbim-glib/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit d783112c6a6e8f8c27b6c603c06ca3efb2089b33
+Author: Iñigo Martínez <inigomartinez@gmail.com>
+Date:   Sat Sep 11 00:20:37 2021 +0200
+
+    build: Use the install_mode option
+
+    Since meson 0.47, `install_mode` option can be used to set a given
+    set of rights to any target.
+
+    This feature has been used to set `qmi-network` rights instead of
+    using a post install script.
+
+    [0]
+    https://mesonbuild.com/Release-notes-for-0-47-0.html#install_mode-keyword-argument-extended-to-all-installable-targets
+
+    (cherry picked from commit 35abb03daddc000cc8a3b35b9338dcdcf211273f)
+
+ meson.build           |  6 ------
+ meson_post_install.py | 20 --------------------
+ utils/meson.build     |  1 +
+ 3 files changed, 1 insertion(+), 26 deletions(-)
+
+commit 8a51de916ee4347ce070e28602ed9d15f21b84bd
+Author: Iñigo Martínez <inigomartinez@gmail.com>
+Date:   Sat Sep 11 00:17:49 2021 +0200
+
+    build: Use strings for include_directories
+
+    Since meson 0.50, `include_directories` also include strings[0].
+    This feature is used to improve slightly build files.
+
+    [0]
+    https://mesonbuild.com/Release-notes-for-0-50-0.html#include_directories-accepts-a-string
+
+    (cherry picked from commit 02b027be43b85d54adc0cd6e123641bb576f1d21)
+
+ src/common/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 513bb5955ef4497e8fef11ef86e4a4693af651a3
+Author: Iñigo Martínez <inigomartinez@gmail.com>
+Date:   Sat Sep 11 00:14:51 2021 +0200
+
+    build: Use the if_found feature
+
+    meson is able to process or discard a directory based on a
+    dependency object based on if it is found or not[0].
+
+    The `man` directory depends on the `help2man` program so it has been
+    changed to take advantage of this feature.
+
+    [0]
+    https://mesonbuild.com/Release-notes-for-0-44-0.html#added-if_found-to-subdir
+
+    (cherry picked from commit 28674e61b5f2e846340b27f2a5a3d0a5ffbe8c21)
+
+ meson.build | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+commit 52170deb51eb7f8c7be90842690b27000e4def0e
+Author: Iñigo Martínez <inigomartinez@gmail.com>
+Date:   Sat Sep 11 00:13:40 2021 +0200
+
+    build: Make use of dictionaries
+
+    meson gained the dictionaries as builtin objects[0] that can be
+    modified with the addition operator[1] and can be useful when
+    setting configuration or even environment values[2].
+
+    The individual object creation has been replaced by dictionaries
+    when possible.
+
+    [0]
+    http://mesonbuild.com/Release-notes-for-0-47-0.html#new-builtin-object-type-dictionary
+    [1]
+    https://mesonbuild.com/Release-notes-for-0-48-0.html#dictionary-addition
+    [2]
+    https://mesonbuild.com/Release-notes-for-0-52-0.html#support-taking-environment-values-from-a-dictionary
+
+    (cherry picked from commit 9607e0472d22459949c092cb6ddcba665789d501)
+
+ docs/reference/libmbim-glib/xml/meson.build | 17 +++++++++--------
+ meson.build                                 | 11 ++++++-----
+ src/libmbim-glib/test/meson.build           | 13 +++++++------
+ 3 files changed, 22 insertions(+), 19 deletions(-)
+
+commit e454c129d4d1f7c528b3bb9068a09bcb068db2b0
+Author: Iñigo Martínez <inigomartinez@gmail.com>
+Date:   Sat Sep 11 00:06:50 2021 +0200
+
+    build: Make use of features build option for introspection
+
+    Since meson 0.47, there is support for features build options[0] that
+    can be enabled automatically if the system has the required support.
+
+    This feature has been used for introspection support.
+
+    [0]
+    https://mesonbuild.com/Release-notes-for-0-47-0.html#new-type-of-build-option-for-features
+
+    (cherry picked from commit 6b4a303eb9484916b00da5d7b76810b4c9a381d9)
+
+ meson.build       | 5 +----
+ meson_options.txt | 2 +-
+ 2 files changed, 2 insertions(+), 5 deletions(-)
+
+commit 2748ce4b1f870bf60ddb1a11006a2a6cc0734bc3
+Author: Iñigo Martínez <inigomartinez@gmail.com>
+Date:   Fri Sep 10 15:19:51 2021 +0200
+
+    build: Removed duplicated variable
+
+    (cherry picked from commit 38deb2f29d82391221a966138ffe5e2c366f08e0)
+
+ meson.build | 2 --
+ 1 file changed, 2 deletions(-)
+
+commit a10a2cc11f0d89dc62abbe53d290035ab456da8a
+Author: Iñigo Martínez <inigomartinez@gmail.com>
+Date:   Fri Sep 10 15:14:13 2021 +0200
+
+    build: Use / instead of join_paths
+
+    Since meson 0.49, the `/` character can be used to join paths[0], so
+    all the instances of `join_paths` have been replaced.
+
+    [0]
+    http://mesonbuild.com/Release-notes-for-0-49-0.html#joining-paths-with-
+
+    (cherry picked from commit 69c72d36394e43ee3b64584e12ad9e313fc43756)
+
+ docs/man/meson.build                    |  2 +-
+ docs/reference/libmbim-glib/meson.build |  6 +++---
+ meson.build                             | 10 +++++-----
+ src/libmbim-glib/generated/meson.build  | 16 ++++++++--------
+ src/libmbim-glib/meson.build            |  4 ++--
+ src/mbim-proxy/meson.build              |  2 +-
+ 6 files changed, 20 insertions(+), 20 deletions(-)
+
+commit e6c2a23ca574d740098c0ca1d4a66ce1b989bb4b
+Author: Iñigo Martínez <inigomartinez@gmail.com>
+Date:   Fri Sep 10 15:02:37 2021 +0200
+
+    build: Create a variable for the project name
+
+    A new variable called `mbim_name` has been created to avoid the call
+    to a function inside the meson object.
+
+    (cherry picked from commit 2e6edfc1ef58003fba2bc771dc7f82e6421566c4)
+
+ docs/reference/libmbim-glib/xml/meson.build | 10 +++++-----
+ meson.build                                 |  3 ++-
+ 2 files changed, 7 insertions(+), 6 deletions(-)
+
+commit 6bb7624456d60f1c5bef060e12f953ae8e3f6ac8
+Author: Iñigo Martínez <inigomartinez@gmail.com>
+Date:   Fri Sep 10 14:57:01 2021 +0200
+
+    build: Make use of the summary function
+
+    Since meson 0.53, it has added a new function to summarize the build
+    configuration[0].
+
+    The summary has been changed to make use of it.
+
+    meson version has been bumped to 0.53.
+
+    [0]
+    https://mesonbuild.com/Release-notes-for-0-53-0.html#add-a-new-summary-function
+
+    (cherry picked from commit 28dc34931780e206342be576f3f6745428b6dc08)
+
+ meson.build | 31 +++++++++++++++++--------------
+ 1 file changed, 17 insertions(+), 14 deletions(-)
+
+commit 6df593b048de5862261746697b07c4e6856a2ad7
+Author: Iñigo Martínez <inigomartinez@gmail.com>
+Date:   Fri Sep 10 14:41:25 2021 +0200
+
+    build: Use the newer python module
+
+    Since 0.48 version of meson, there is a new generic `python` module
+    and the previous `python3` module has been deprecated[0].
+
+    The use of the `python3` module has been replaced by this new
+    `python` module.
+
+    meson version has been bumped to 0.48.
+
+    CI has also been updated to have this meson version available.
+
+    [0]
+    https://mesonbuild.com/Release-notes-for-0-48-0.html#python3-module-is-deprecated
+
+    (cherry picked from commit f5a06ffef8b7fa103555331eef748a5f8bb48ce5)
+
+ .gitlab-ci.yml | 4 ++--
+ meson.build    | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+commit b2984a3543b21213fbed80c6f7b96d89d30c28a6
+Author: goapunk <goapunk@riseup.net>
+Date:   Fri Aug 13 13:54:51 2021 +0200
+
+    build: use python3 everywhere
+
+    (cherry picked from commit a64d93a799683c5b1381690d22e99281dddaa794)
+
+ build-aux/mbim-codegen/mbim-codegen                | 2 +-
+ examples/simple-tester-python/simple-tester-python | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+commit 2fd08b8cd43e36e780c8bdc2dde4e51eb8aa4663
+Author: Iñigo Martínez <inigomartinez@gmail.com>
+Date:   Wed Aug 4 13:06:55 2021 +0200
+
+    build: Improve symbols resolution
+
+    The `libmbim-glib-generated` library is now fully built in
+    `libmbim-glib-core` so it holds all the necessary symbols.
+
+    (cherry picked from commit 2cc7444cad59fcadd017905235d876367478ec9b)
+
+ src/libmbim-glib/generated/meson.build | 3 +--
+ src/libmbim-glib/meson.build           | 4 +++-
+ 2 files changed, 4 insertions(+), 3 deletions(-)
+
+commit de4c908f32b4715ec96aff8108ec18dea7a48524
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon Aug 2 10:43:53 2021 +0200
+
+    meson: make meson_post_install.py executable
+
+    (cherry picked from commit 6c1fe9c3a115041db0ceefe4255bd3b00ec26bfd)
+
+ meson_post_install.py | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 1ab9fc84520b20afa73fcd01d9759d1ef6a8f6ad
+Author: Yegor Yefremov <yegorslists@googlemail.com>
+Date:   Mon Aug 2 07:08:51 2021 +0200
+
+    meson: add missing SPDX identifiers and copyright information
+
+    (cherry picked from commit e84c6e90970d67d180bb362d5f03732fd4dce728)
+
+ meson_options.txt     | 3 +++
+ meson_post_install.py | 3 +++
+ 2 files changed, 6 insertions(+)
+
+commit e9f995f8c3caa0cbc6c72a1f7d11c8f2364dd094
+Author: Iñigo Martínez <inigomartinez@gmail.com>
+Date:   Sun Aug 1 22:31:14 2021 +0200
+
+    meson: Fix static build
+
+    Replace shared_library by library to fix static build failure with
+    toolchains that don't support dynamic library.
+
+    Fixes:
+    http://autobuild.buildroot.org/results/8553211d87a2c41d8b47b51bbb193736fce49714
+    Refs: !83
+    Author: Fabrice Fontaine <fontaine.fabrice@gmail.com>
+    (cherry picked from commit d8e1aeda7f83c7657291ef3673bdb7ae0c6cf89e)
+
+ src/libmbim-glib/meson.build | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit 02313dbe22fe0fbbedf3bd6e9c177f6d1dcf4dff
+Author: Iñigo Martínez <inigomartinez@gmail.com>
+Date:   Sun Aug 1 21:06:03 2021 +0200
+
+    meson: Fix tests names
+
+    In tests execution, the test name is using only the first character
+    instead of the full test name.
+
+    (cherry picked from commit e858c69d8231bb75ec952ca0eb70ad70280ca348)
+
+ src/libmbim-glib/test/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit a872f5f63c56eb29d6598a508cb6d568d34e19a7
+Author: Yegor Yefremov <yegorslists@googlemail.com>
+Date:   Thu Jul 29 07:10:00 2021 +0200
+
+    meson: list both licenses
+
+    As this project is covered by two licenses, list both GPL-2.0-or-later
+    and LGPL-2.1-or-later in the corresponding project field.
+
+    (cherry picked from commit 4b94d7c87152b295e12ec2c2ac251f1cc0da63e7)
+
+ meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 4b6db4b1a3500ac73784cbe8ca26fe0d0b981cbf
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Tue Jul 27 12:10:48 2021 +0200
+
+    build: post-release version bump to 1.26.1
+
+ configure.ac | 2 +-
+ meson.build  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
 commit 717067603d82c14452e70fa24cacb60ac7688685
 Author: Aleksander Morgado <aleksander@aleksander.es>
 Date:   Tue Jul 27 11:13:56 2021 +0200
