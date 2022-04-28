@@ -1,3 +1,241 @@
+commit bcdbc8cba800137377048c2a5db7fe6d5996f48b
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Thu Apr 28 11:05:32 2022 +0200
+
+    release: bump version to 1.26.4
+
+ configure.ac | 2 +-
+ meson.build  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+commit 8b90b560ff00fc16104e2ab9f8d601f8714f4116
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Thu Apr 28 11:05:07 2022 +0200
+
+    NEWS: update for 1.26.4
+
+ NEWS | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+
+commit 2767e859a38281c0e4e4991173045d8d8c9b9280
+Author: Bjørn Mork <bjorn@mork.no>
+Date:   Sun Mar 27 21:24:15 2022 +0200
+
+    libmbim-glib,net-port-manager: use unaligned netlink attribute length
+
+    Removes the warning
+
+    [  120.780599] netlink: 'ModemManager': attribute type 1 has an
+    invalid length.
+
+    caused by using an incorrect aligned length of 8 for the 16 bit
+    IFLA_VLAN_ID
+    attribute instead of the expected 6.
+
+    Fixes: b2b4b0698351 ("libmbim-glib,device: new link add/delete
+    operations")
+    Signed-off-by: Bjørn Mork <bjorn@mork.no>
+    (cherry picked from commit 43d4022b059ca7199977300a897148eb921cbede)
+
+ src/libmbim-glib/mbim-net-port-manager.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 4a3e44727b7ccf7def8ed4f55f7eb94d50f6e461
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon Feb 14 22:52:54 2022 +0100
+
+    libmbim-glib,doc: include MBIM proxy control service in docs
+
+    There's no reason why this service should be considered fully private;
+    the service may be used by other applications wanting to interact with
+    the MBIM device but which don't want to use libmbim-glib.
+
+    (cherry picked from commit ed37ceacda9b0523c0759f5ddf3ca6b9e4f29e4f)
+
+ docs/reference/libmbim-glib/Makefile.am           |  1 +
+ docs/reference/libmbim-glib/libmbim-glib-docs.xml |  5 +++
+ src/libmbim-glib/generated/meson.build            | 50
+ +++++++++++------------
+ 3 files changed, 30 insertions(+), 26 deletions(-)
+
+commit 9e52d30eba29f0b40c3394729de21954efb49284
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon Feb 14 22:52:36 2022 +0100
+
+    mbim-codegen: add section doc for each service
+
+    (cherry picked from commit b59eef8f0f7b6709bbf55233223648a97e941b88)
+
+ build-aux/mbim-codegen/mbim-codegen |  1 +
+ build-aux/mbim-codegen/utils.py     | 21 ++++++++++++++++++++-
+ 2 files changed, 21 insertions(+), 1 deletion(-)
+
+commit b1405e77c68545d1849ddea63faa83b684d79049
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon Feb 14 22:33:10 2022 +0100
+
+    libmbim-glib,utils: add missing short description in section
+
+    (cherry picked from commit 056df120dcdbd1ff042a21c3626fc77d782f0776)
+
+ src/libmbim-glib/mbim-utils.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit d08cbcfe160f6cafa54d9e50a3975e6cb5b97f9a
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon Feb 14 22:30:42 2022 +0100
+
+    libmbim-glib,compat: add missing MbimLteAttachStatus doc
+
+    (cherry picked from commit c70d602cd4dbe2e874eb6efd036bf7e523976052)
+
+ src/libmbim-glib/mbim-compat.h | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit 22c3ebcbde1ef2ba41b26639be626d397c8a8aac
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon Feb 14 22:29:26 2022 +0100
+
+    libmbim-glib,device: add missing mbim_device_list_links() doc
+
+    (cherry picked from commit 06beb4e38846a4d4c3ac6913d9321c0dd562fbff)
+
+ src/libmbim-glib/mbim-device.h | 3 +++
+ 1 file changed, 3 insertions(+)
+
+commit 3df107b092e4e301da4c3abbcab7f48e5f2482d2
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon Feb 14 22:27:54 2022 +0100
+
+    libmbim-glib,device: fix MbimDevice 'device-in-session' property doc
+
+    (cherry picked from commit 048f5ac41ac432e44626d2fec5884ca3345a3839)
+
+ src/libmbim-glib/mbim-device.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 3b78f3541ef2d0c4f4a3ca62b41dedc09c9055d9
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon Feb 14 22:25:53 2022 +0100
+
+    libmbim-glib,version: add missing MBIM_CHECK_VERSION() documentation
+
+    (cherry picked from commit ea34d57596f23875846d6a1f5d49c795ac0df21a)
+
+ src/libmbim-glib/mbim-version.h.in | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit 438bc5327451540e5e64402ff4abee503a3f66c4
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon Feb 14 16:06:35 2022 +0100
+
+    libmbim-glib,device: fix wrong reference to QmiDevice
+
+    (cherry picked from commit 3b77dd8c7ac20711bb2ef25ef8f66358cf6586c3)
+
+ src/libmbim-glib/mbim-device.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit fe1bd2036ab50b0820b2284dc8c483cd1e741130
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon Feb 14 16:01:26 2022 +0100
+
+    build,meson: fix 'export_packages' in GIR setup
+
+    The 'export_packages' field in the generate_gir() command should
+    include the name of the pkg-config package being exported, not the
+    name of the library file.
+
+    Without this change, building GIR files depending on the one we
+    provide here would fail as the corresponding .pc file isn't found.
+
+    (cherry picked from commit f7d516cb03e2af7b432edcc0f21c9ff0ed179a51)
+
+ src/libmbim-glib/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 7b2287ad35559a41992c4782e75aff3ec8bcd1b6
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon Jan 10 11:12:59 2022 +0100
+
+    docs: add missing reference to the private
+    proxy_control_version_notification_parse()
+
+    (cherry picked from commit 1738e76042a405a91e03de3e00d6dbadbd8e8d8d)
+
+ docs/reference/libmbim-glib/libmbim-glib-common.sections | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit d40450dbe922c3a82cb89a0a5b6de47943d838c5
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Thu Jan 6 22:33:09 2022 +0100
+
+    mbim-codegen,struct: add dummy description for each struct type
+
+    (cherry picked from commit 248ed9033e1b3c7c91df057496d74f9f301f1020)
+
+ build-aux/mbim-codegen/Struct.py | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit afd71c3deed9bc457b8ad3ee672ab3e7f4940371
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Thu Jan 6 21:00:20 2022 +0100
+
+    libmbim-glib,compat: deprecate the MbimLteAttachStatus type
+
+    We introduce a new MbimLteAttachStatusDeprecated symbol that isn't
+    really deprecated, which we use in our own APIs, and we typedef
+    MbimLteAttachStatus to it.
+
+    The only method in which we couldn't use MbimLteAttachStatusDeprecated
+    was the autoptr cleanup setup, so we just explicitly request to ignore
+    deprecation warnings on that one in both gcc and clang.
+
+    (cherry picked from commit f474d51162f1af5f1f9ffabf943f03f7a4d02046)
+
+ .../libmbim-glib/libmbim-glib-common.sections      |  1 +
+ src/libmbim-glib/mbim-compat.c                     | 10 ++++----
+ src/libmbim-glib/mbim-compat.h                     | 27
+ ++++++++++++++++++----
+ 3 files changed, 29 insertions(+), 9 deletions(-)
+
+commit 49104d7bab1e60ba2423fe54dee6901e9efa51ad
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sun Jan 9 14:21:18 2022 +0100
+
+    ci: enable gtk-doc in build-release
+
+    (cherry picked from commit f7a2c42a11aff2e16f316cb2f09f835d6dfd1e39)
+
+ .gitlab-ci.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 8c9af651d5555e513fe5ba70798dfc4d10c24b63
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Sun Jan 9 13:58:16 2022 +0100
+
+    build: force building doc on normal builds
+
+    Not just during install, as it would fail.
+
+    See
+    https://gitlab.freedesktop.org/mobile-broadband/libmbim/-/issues/19
+
+    (cherry picked from commit e8352f9c5ed99924e43630c435fc4fd55df2ac28)
+
+ docs/reference/libmbim-glib/meson.build | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit fb6b3e6f645fb84fa6b2704f227b3da0c0e8acaa
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Mon Nov 8 12:57:23 2021 +0100
+
+    build: post-release version bump to 1.26.3
+
+ configure.ac | 2 +-
+ meson.build  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
 commit 55d51a8a76921b478a75b79a8695b37d989e4868
 Author: Aleksander Morgado <aleksander@aleksander.es>
 Date:   Mon Nov 8 11:07:55 2021 +0100
